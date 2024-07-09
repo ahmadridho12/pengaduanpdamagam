@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/laporan', 'App\Http\Controllers\User\UserController@show')->name('laporan');
 
 Route::get('/', [UserController::class, 'index'])->name('pekat.index');
 

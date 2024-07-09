@@ -20,7 +20,7 @@
         }
         .content table { width: 100%; border-collapse: collapse; }
         .content th, .content td { border: 1px solid #000; padding: 8px; text-align: left; }
-        .signature-container { margin-top: 50px; text-align: left; } /* Ubah text-align ke kiri */
+        .signature-container { margin-top: 50px;  margin-left:24px; } /* Ubah text-align ke kiri */
         .signature { width: 45%; margin-left: 0; text-align: left; } /* margin kiri dan teks ke kiri */
         .footer { margin-top: 50px; text-align: center; }
         .footer .signature { display: inline-block; width: 45%; text-align: center; }
@@ -48,6 +48,18 @@
         hr.long-hr {
             width: 100%;
             
+        }
+        .bapak {
+            margin-left: 80px;
+        }
+        .agam {
+            margin-left: 74px;
+        }
+        .perusahaan {
+            margin-left: 16px;
+        }
+        .lubukbasung {
+            margin-left: 34px;
         }
     </style>
 </head>
@@ -94,12 +106,13 @@
     <br>
     <div class="signature-container">
         <div class="signature">
-            <p >Lubuk Basung, {{ \Carbon\Carbon::now()->format('d-m-Y') }}</p>
-            <p >Perusahaaan Daerah Air Minum <br><span class="agam", style="text-align: center;">Kab AGAM</span></p>
+            <p class="lubukbasung">Lubuk Basung, {{ \Carbon\Carbon::now()->format('d-m-Y') }}</p>
+            <p class="perusahaan">Perusahaaan Daerah Air Minum <br><span class="agam">Kab AGAM</span></p>
             <br><br><br><br>
             <hr class="short-hr"> <!-- Garis lebih pendek dan ke kiri -->
-            <p >(ZALDI, A.Md)</p>
+            <p class="bapak">(ZALDI, A.Md)</p>
         </div>
     </div>
 </body>
 </html>
+<link rel="stylesheet" href="{{ asset('css/styles.css') }}"> <!-- Adjust the path accordingly -->

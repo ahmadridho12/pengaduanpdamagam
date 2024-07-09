@@ -33,12 +33,19 @@
             text-decoration: none;
             border-radius: 4px;
         }
+        .scrollable-table {
+            display: block;
+            width: 100%;
+            overflow-x: auto;
+        }
+</style>
     </style>
 @endsection
 
 @section('header', 'Data Pengaduan')
 
 @section('content')
+<div class="scrollable-table">
     <table id="pengaduanTable" class="table">
         <thead>
             <tr>
@@ -74,6 +81,7 @@
             @endforeach
         </tbody>
     </table>
+</div>
 @endsection
 
 @section('js')

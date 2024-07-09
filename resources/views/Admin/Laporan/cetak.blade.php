@@ -10,47 +10,60 @@
 
     <title>Laporan Pengaduan</title>
     <style>
-        .table-bordered th, .table-bordered td {
-            border: 1px solid #dee2e6 !important;
+         @page {
+         size: A4; /* Mengatur ukuran kertas ke A4 */
+         margin: 10mm; /* Mengatur margin halaman */
         }
+
+        .content table { width: 100%; border-collapse: collapse; }
+        .content th, .content td { border: 1px solid #000; padding: 8px; text-align: left; }
+        .header-text {
+            text-align: center;
+        }
+        
     </style>
 </head>
 <body>
-    <div class="text-center">
-        <h5>Laporan Pengaduan Masyarakat</h5>
-        <h6>TIRTA ANTOKAN</h6>
+    <div class="header-text">
+        <h1>Laporan Pengaduan Masyarakat</h1>
+        <h2>TIRTA ANTOKAN</h2>
+        @if($from && $to)
+            <h4>Periode: {{ \Carbon\Carbon::parse($from)->format('d-M-Y') }} - {{ \Carbon\Carbon::parse($to)->format('d-M-Y') }}</h4>
+        @endif
+        <hr>
+        <br><br>
     </div>
-    <div class="container">
+    <div class="content">
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>No</th>
-                    <th>Tanggal</th>
-                    <th>Nama Pelapor</th>
-                    <th>No Telepon</th>
-                    <th>NO Sambungan</th>
-                    <th>Judul Laporan</th>
-                    <th>Isi Laporan</th>
-                    <th>Tanggal Kejadian</th>
-                    <th>Wilayah Kejadian</th>
-                    <th>Lokasi Kejadian</th>
-                    <th>Status</th>
+                    <th style="font-size: smaller;">No</th>
+                    <th style="font-size: smaller;">Tanggal</th>
+                    <th style="font-size: smaller;">Nama Pelapor</th>
+                    <th style="font-size: smaller;">No Telepon</th>
+                    <th style="font-size: smaller;">No Sambungan</th>
+                    <th style="font-size: smaller;">Judul Laporan</th>
+                    <th style="font-size: smaller;">Isi Laporan</th>
+                    <th style="font-size: smaller;">Tanggal Kejadian</th>
+                    <th style="font-size: smaller;">Wilayah Kejadian</th>
+                    <th style="font-size: smaller;">Lokasi Kejadian</th>
+                    <th style="font-size: smaller;">Status</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($pengaduan as $k => $v)
                     <tr>
-                        <td>{{ $k += 1 }}</td>
-                        <td>{{ $v->tgl_pengaduan->format('d-M-Y') }}</td>
-                        <td>{{ $v->nama }}</td>
-                        <td>{{ $v->no_hp }}</td>
-                        <td>{{ $v->no_index }}</td>
-                        <td>{{ $v->judul_laporan }}</td>
-                        <td>{{ $v->isi_laporan }}</td>
-                        <td>{{ $v->tgl_kejadian->format('d-M-Y') }}</td>
-                        <td>{{ $v->wilayah_kejadian }}</td>
-                        <td>{{ $v->lokasi_kejadian }}</td>
-                        <td>{{ $v->status == '0' ? 'Pending' : ucwords($v->status) }}</td>
+                        <td style="font-size: smaller;">{{ $k += 1 }}</td>
+                        <td style="font-size: smaller;">{{ $v->tgl_pengaduan->format('d-M-Y') }}</td>
+                        <td style="font-size: smaller;">{{ $v->nama }}</td>
+                        <td style="font-size: smaller;">{{ $v->no_hp }}</td>
+                        <td style="font-size: smaller;">{{ $v->no_index }}</td>
+                        <td style="font-size: smaller;">{{ $v->judul_laporan }}</td>
+                        <td style="font-size: smaller;">{{ $v->isi_laporan }}</td>
+                        <td style="font-size: smaller;">{{ $v->tgl_kejadian->format('d-M-Y') }}</td>
+                        <td style="font-size: smaller;">{{ $v->wilayah_kejadian }}</td>
+                        <td style="font-size: smaller;">{{ $v->lokasi_kejadian }}</td>
+                        <td style="font-size: smaller;">{{ $v->status == '0' ? 'Pending' : ucwords($v->status) }}</td>
                     </tr>
                 @endforeach
             </tbody>

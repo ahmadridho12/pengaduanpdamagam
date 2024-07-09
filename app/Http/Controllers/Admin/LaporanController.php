@@ -28,17 +28,21 @@ class LaporanController extends Controller
     }
 
     public function cetakLaporan($from, $to)
-    {
-        $pengaduan = Pengaduan::whereBetween('tgl_pengaduan', [$from, $to])->get();
+{
+    $pengaduan = Pengaduan::whereBetween('tgl_pengaduan', [$from, $to])->get();
 
-        $dompdf = new Dompdf();
-        $dompdf->loadHtml(view('Admin.Laporan.cetak', ['pengaduan' => $pengaduan])->render());
+    $dompdf = new Dompdf();
+    $dompdf->loadHtml(view('Admin.Laporan.cetak', [
+        'pengaduan' => $pengaduan,
+        'from' => $from,
+        'to' => $to
+    ])->render());
 
-        $dompdf->setPaper('A4', 'landscape');
+    $dompdf->setPaper('A4', 'landscape');
 
-        $dompdf->render();
-        return $dompdf->stream('laporan-pengaduan.pdf');
-    }
+    $dompdf->render();
+    return $dompdf->stream('laporan-pengaduan.pdf');
+}
     public function cetakLaporanExcel($from, $to)
     {
         $pengaduan = Pengaduan::whereBetween('tgl_pengaduan', [$from, $to])->get();

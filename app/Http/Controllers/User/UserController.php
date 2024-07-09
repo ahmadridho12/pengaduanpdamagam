@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\VerifikasiEmailUntukRegistrasiPengaduanMasyarakat;
 use App\Models\Masyarakat;
 use App\Models\Pengaduan;
+use App\Models\Tanggapan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 
 class UserController extends Controller
@@ -150,11 +152,12 @@ class UserController extends Controller
     //     // Arahkan ke route pekat.index
     //     return redirect()->route('pekat.index');
     // }
-    public function showLaporan()
-{
-    $laporan = pengaduan::all(); // Mengambil semua laporan
-    return view('User.laporan', compact('laporan'));
-}
+    public function show($id_pengaduan)
+    {
+        $laporan = Pengaduan::with('tanggapan')->where('id_pengaduan', $id_pengaduan)->first();
+
+        return view('User.laporan', compact('laporan'));
+    }
 
     public function trackLaporan(Request $request)
 {

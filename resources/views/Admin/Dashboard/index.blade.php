@@ -65,7 +65,7 @@
     <!-- Bagian Header -->
     <div class="header-section">
         <img src="{{ asset('images/gelombang.png') }}" alt="Header Dashboard" class="header-image">
-        <h4>Selamat Datang di Mall Pelayanan Publik, PDAM Tirta Antokan</h4>
+        <h5>Selamat Datang di Mall Pelayanan Publik, PERUMDA Tirta Antokan</h5>
     </div>
 
     <!-- Ringkasan Pengaduan berdasarkan Status dan Tipe -->

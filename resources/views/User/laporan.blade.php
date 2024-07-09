@@ -36,6 +36,14 @@
         background-color: #233e99; /* Ganti dengan warna yang diinginkan */
         color: white;
     }
+    .tanggapan {
+        background-color: #233e99;
+        color:white;
+    }
+    .tblatas {
+        background-color: #233e99;
+        color:white;
+    }
 </style>
 @endsection
 
@@ -92,11 +100,11 @@
 </div> 
 
 {{-- Menampilkan data laporan --}}
-@if(isset($laporan))
+@if($laporan)
 <div class="container mt-2">
     <table class="table table-bordered" style="border-color:#233e99;">
         <thead>
-            <tr>
+            <tr class="tblatas">
                 <th scope="col">Detail</th>
                 <th scope="col">Data</th>
             </tr>
@@ -144,8 +152,6 @@
             </tr>
             <tr>
                 <th>Status</th>
-                
-               
                 <td>
                     @if ($laporan->status == '0')
                         <span class="badge badge-danger">Pending</span>
@@ -157,37 +163,73 @@
                 </td>
             </tr>
             @if($laporan->foto)
-    <tr>
-        <td>Foto</td>
-        <td>
-            @php
-                $fotoUrl = Storage::url($laporan->foto);
-            @endphp
-            <img src="{{ $fotoUrl }}" alt="Gambar Laporan" class="custom-img">
-        </td>
-    </tr>
+            <tr>
+                <td>Foto</td>
+                <td>
+                    @php
+                        $fotoUrl = Storage::url($laporan->foto);
+                    @endphp
+                    <img src="{{ $fotoUrl }}" alt="Gambar Laporan" class="custom-img">
+                </td>
+            </tr>
+            @endif
+            @if($laporan->tanggapan)
+            <tr>
+                <td class="tanggapan">Tanggapan Petugas</td>
+                <td class="tanggapan">Balasan Petugas </td>
+            </tr>
+            <tr>
+                <td>Tanggal Tanggapan</td>
+                <td>{{ $laporan->tanggapan->tgl_tanggapan instanceof \Carbon\Carbon ? $laporan->tanggapan->tgl_tanggapan->format('d M Y') : $laporan->tanggapan->tgl_tanggapan }}</td>
+            </tr>
+            <tr>
+                <td>Keterangan Tanggapan</td>
+                <td>{{ $laporan->tanggapan->keterangan }}</td>
+            </tr>
+            <tr>
+                <td>Foto Tanggapan</td>
+                <td>
+                    @if($laporan->tanggapan->foto)
+                        <img src="{{ Storage::url($laporan->tanggapan->foto) }}" alt="Foto Tanggapan" class="custom-img">
+                    @else
+                        Tidak ada foto
+                    @endif
+                </td>
+            </tr>
+            @else
+            <tr>
+                <td>Tanggapan</td>
+                <td>Belum ada tanggapan</td>
+            </tr>
+            @endif
+        </tbody>
+    </table>
+</div>
+
 @endif
-<div class="mt-3">
-    <hr>
+    </tr>
+    
 </tbody>
 </table>
 </div>
+
 <footer class="footer mt-4" style="background-color: #233e99; color: white; padding: 20px 0;">
-    <div class="container text-center">
-        <small>© 2024 TIRTA ANTOKAN. All rights reserved.</small>
-    </div>
+<div class="container text-center">
+<small>© 2024 TIRTA ANTOKAN. All rights reserved.</small>
+</div>
 </footer>
-@endif
 @endsection
+
 @if (Session::has('status'))
 <div class="alert alert-success mt-2">
-    {{ Session::get('status') }}
+{{ Session::get('status') }}
 </div>
 @endif
+
 @section('js')
 @if (Session::has('pesan'))
 <script>
-    $('#loginModal').modal('show');
+$('#loginModal').modal('show');
 </script>
 @endif
 @endsection

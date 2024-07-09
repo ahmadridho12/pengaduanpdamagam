@@ -16,6 +16,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-FZpZegd8+aWVll5fCxk8NBvJdGhE9i4TBUC+Vp5zDQ6H4zjpj+NHUC3JxLr+ogB2FW5w9zmAD0L88QeDWkHgPQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     @yield('css')
 
     <style>
@@ -60,7 +61,22 @@
         .text-container h5 span {
             font-size: 80%; /* Atur ukuran font sesuai kebutuhan */
         }
+        .list-unstyled.components li a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            margin-left: 8px;
+        }
 
+        .list-unstyled.components li a i {
+            margin-right: 8px; /* Ruang antara ikon dan teks */
+        }
+
+        .list-unstyled.components li.active a {
+            background-color: #f8f9fa; /* Gaya untuk item aktif */
+            color: #007bff;
+        }
     </style>
 
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
@@ -74,7 +90,7 @@
             <div class="sidebar-header">
                 <img src="{{ asset('images/logopdam.png') }}" alt="TIRTA ANTOKAN Logo" class="logo-img" style="width: 80px;">
                 <div class="text-container">
-                    <h5 class="mb-0">PDAM <br><span>Tirta Antokan</span></h5>
+                    <h5 class="mb-0">PERUMDA <br><span>Tirta Antokan</span></h5>
                 </div>
             </div>
 
@@ -112,6 +128,7 @@
                     </a>
                 </li>
                 @endif
+                
             </ul>
             
         </nav>
