@@ -72,7 +72,71 @@
         background-color: #f8f9fa; /* Warna latar belakang card */
         border-color: #233e99; /* Warna border card */
     }
-   
+    input::placeholder {
+            font-size: small; /* Atur ukuran font untuk placeholder */
+    }
+    select, option {
+            font-size: small; /* Atur ukuran font untuk select dan option */
+    }
+    textarea::placeholder {
+            font-size: small; /* Atur ukuran font untuk placeholder */
+    }
+    .red-asterisk {
+            color: red; /* Atur warna teks menjadi merah */
+    }
+    
+    .footer {
+            background-color: #233e99;;
+            color: #ffffff;;
+            margin-top: 40px;
+            padding: 20px;
+        }
+        .footer .container {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .footer .column {
+            flex: 1;
+            margin: 0 10px;
+        }
+        .footer .column h3 {
+            margin-bottom: 10px;
+            font-size: 16px;
+            text-transform: uppercase;
+        }
+        .footer .column a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .footer .column a:hover {
+            text-decoration: underline;
+        }
+        .footer .contact-info {
+            font-size: 14px;
+        }
+        .footer .social-icons {
+            margin-top: 10px;
+        }
+        .footer .social-icons a {
+            margin-right: 10px;
+            color: white;
+            font-size: 20px;
+            text-decoration: none;
+        }
+        .footer .bottom {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        .bold-text {
+            font-weight: bold;
+        }
+    
 </style>
 @endsection
 
@@ -87,10 +151,10 @@
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
                     <div class="d-flex align-items-center">
-                        <img src="{{ asset('images/logopdam.png') }}" alt="TIRTA ANTOKAN Logo" class="logo-img" style="width: 100px;">
+                        <img src="{{ asset('images/logoperumda.png') }}" alt="TIRTA ANTOKAN Logo" class="logo-img" style="width: 100px;">
                         <div class="d-flex flex-column ml-3" style="margin-top: 20px;">
-                            <h4 class="semi-bold mb-0 text-white">TIRTA ANTOKAN</h4>
-                            <p class="italic mt-0 text-white">Pengaduan Pelanggan</p>
+                            <h4 class="semi-bold mb-0 text-white">PERUMDAM</h4>
+                            <p class="italic mt-0 text-white">TIRTA ANTOKAN</p>
                             
                         </div>
                     </div>
@@ -100,16 +164,16 @@
         </div>
     </nav>
     <div class="text-center">
-        <h2 class="medium text-white mt-3">Layanan Pengaduan Pelanggan</h2>
+        <h2 class="medium text-white mt-3">Layanan Pengaduan Pelanggan <span>PERUMDAM TIRTA ANTOKAN</span></h2>
         
     </div>
     <div style="position: relative;">
         <div style="float: right; z-index: 999;">
             <!-- Konten lain di sini -->
         </div>
-        <div style="display: flex; justify-content: flex-end;">
+        {{-- <div style="display: flex; justify-content: flex-end;">
             <img src="{{ asset('images/Group 55.png') }}" alt="TIRTA ANTOKAN Logo" class="penjelasan" style="width: 300px; margin-top: -130px; transform: translateX(-100px);">
-        </div>
+        </div> --}}
             </div>
 
     <div class="wave wave1"></div>
@@ -145,23 +209,28 @@
                 <form action="{{ route('pekat.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
+                        <p style="margin-bottom: 4px;">Nama<span class="red-asterisk">*</span></p>
                         <input type="text" value="{{ old('nama') }}" name="nama"
                             placeholder="Masukkan Nama Anda" class="form-control" required>
                     </div>
                     <div class="form-group">
+                        <p style="margin-bottom: 4px; ">No. Telepon<span class="red-asterisk">*</span></p>
                         <input type="text" value="{{ old('no_hp') }}" name="no_hp"
                             placeholder="Masukkan No HP" class="form-control" required>
                     </div>
                     
                     <div class="form-group">
+                        <p style="margin-bottom: 4px;"> No Sambungan</p>
                         <input type="text" value="{{ old('no_index') }}" name="no_index"
-                            placeholder="Masukkan Nomor Sambungan" class="form-control" required>
+                        placeholder="Masukkan Nomor Sambungan" class="form-control" >
+                        <p style="font-size: smaller; color:#0056b3; margin-left: 8px; margin-top:4px">Diisi bila ada</p>
                     </div>
 
                     <div class="form-group">
+                        <p style="margin-bottom: 4px; ">Jenis Pengaduan<span class="red-asterisk">*</span></p>
                         <div class="input-group mb-3">
-                            <select name="judul_laporan" class="custom-select" id="inputGroupSelect01" >
-                                <option value="" selected>Pilih Judul Laporan</option>
+                            <select name="judul_laporan" class="custom-select" id="inputGroupSelect01" required>
+                                <option value="" selected style="font-size: smaller;">Pilih Judul Laporan</option>
                                 <option value="air keruh">Air Keruh</option>
                                 <option value="kebocoran">Kebocoran</option>
                                 <option value="meteran">Meteran</option>
@@ -173,17 +242,20 @@
                     </div>
 
                     <div class="form-group">
+                        <p style="margin-bottom: 4px; ">Isi Laporan<span class="red-asterisk">*</span></p>
                         <textarea name="isi_laporan" placeholder="Masukkan Isi Laporan" class="form-control"
-                            rows="4">{{ old('isi_laporan') }}</textarea>
+                            rows="4" required>{{ old('isi_laporan') }}</textarea>
                     </div>
                     <div class="form-group">
+                        <p style="margin-bottom: 4px; ">Tanggal Kejadian<span class="red-asterisk">*</span></p>
                         <input type="text" value="{{ old('tgl_kejadian') }}" name="tgl_kejadian"
                             placeholder="Pilih Tanggal Kejadian" class="form-control" onfocusin="(this.type='date')"
-                            onfocusout="(this.type='text')">
+                            onfocusout="(this.type='text')"required>
                     </div>
                     <div class="form-group">
+                        <p style="margin-bottom: 4px; ">Wilayah Kejadian<span class="red-asterisk">*</span></p>
                         <div class="input-group mb-3">
-                            <select name="wilayah_kejadian" class="custom-select" id="inputGroupSelect01" >
+                            <select name="wilayah_kejadian" class="custom-select" id="inputGroupSelect01" required>
                                 <option value="" selected>Pilih Wilayah Kejadian</option>
                                 <option value="lubuk basung">Lubuk Basung</option>
                                 <option value="baso">Baso</option>
@@ -198,7 +270,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <textarea name="lokasi_kejadian" id="latlang" rows="3" class="form-control mb-3" placeholder="Detail Lokasi">{{ old('lokasi_kejadian') }}</textarea>
+                        <p style="margin-bottom: 4px; ">Lokasi Kejadian<span class="red-asterisk">*</span></p>
+                        <textarea name="lokasi_kejadian" id="latlang" rows="3" class="form-control mb-3" placeholder="Detail Lokasi" required>{{ old('lokasi_kejadian') }}</textarea>
                         
                     </div>
 
@@ -220,9 +293,11 @@
                         }
                     </script>
                     <div class="form-group">
+                        <p style="margin-bottom: 4px; ">Foto</p>
                         <input type="file" name="foto" class="form-control">
+                        <p style="font-size: smaller; color:#0056b3; margin-left: 8px;  margin-top: 4px;">Diisi bila ada</p>
                     </div>
-                    <button type="submit" class="btn btn-custom mt-2">Kirim</button>
+                    <button type="submit" class="btn btn-custom mt-2">Kirim Pengaduan</button>
                 </form>
             </div>
         </div>
@@ -245,11 +320,44 @@
     </div>
 </div>
 {{-- Footer --}}
-<footer class="footer mt-4" style="background-color: #233e99; color: white; padding: 20px 0;">
-    <div class="container text-center">
-        <small>© 2024 TIRTA ANTOKAN. All rights reserved.</small>
-    </div>
-</footer>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="column">
+                <h3 class="bold-text">Unit</h3>
+                <a class="contact-info"> <span>Unit Baso</span> <br>Jl. Sungai Janiah</a>
+                <a class="contact-info"> <span ">Unit IV Angkek </span> <br>Jln. Ampang Gadang</a>
+                <a class="contact-info"> <span >Unit Matur</span> <br>Jl. Tanjung Lurah</a>
+                <a class="contact-info"> <span>Unit Sei.Puar</span> <br>Jl. Raya Limo Suku</a>
+            </div>
+            <div class="column">
+                <h3></h3>
+                <a class="contact-info"> <span>Unit Maninjau</span> <br>Jln. Pasar Ahad</a>
+                <a class="contact-info"> <span>Unit Batu Kambing</span> <br>Jl. Kampung Pinang, Kec. IV Nagari</a>
+                <a class="contact-info"> <span>Unit Tiku</span> <br>Jl. Sungai Libuang</a>
+                <a class="contact-info"> <span>Unit IV Koto</span> <br></a>
+            </div>
+            <div class="column">
+                <h3 class="bold-text">Kontak</h3>
+                <div class="contact-info">
+                    Jl. DR. Mohd Hatta No. 531<br>
+                    Lubuk Basung<br>
+                    Kab Agam, Sumatera Barat 26542<br>
+                    Office: 0752 - 8701910<br>
+                    Whatsapp Enterprise: +62812-6660-2112<br>
+                    Email: agampdam@yahoo.co.id
+                </div>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/share/kmUz6tne711zmKZo/?mibextid=qi2Omg"><i class="fa fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/perumdam_tirta_antokan?igsh=OG4zZHRueDhsenJl"><i class="fa fa-instagram"></i></a>
+                    <a href="https://wa.me/+6281266602112"><i class="fa fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="bottom">
+            © 2024. Perumdam Antokan<br>
+        </div>
+    </footer>
 @endsection
 
 @section('js')

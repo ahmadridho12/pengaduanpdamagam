@@ -65,7 +65,7 @@
 </head>
 <body>
     <div class="header">
-        <img src="{{ public_path('images/logopdam.png') }}" alt="Logo Perusahaan" class="right-logo" style="width: 130px; height: 90px; margin-top: -90px;">
+        <img src="{{ public_path('images/logoperumda.png') }}" alt="Logo Perusahaan" class="right-logo" style="width: 160px; height: 160px; margin-top: -34px; margin-right:120px;">
         <div class="company-info">
             <h3>PEMERINTAH KABUPATEN AGAM</h3>
             <h2>PERUSAHAAN DAERAH AIR MINUM TIRTA ANTOKAN</h2>
@@ -73,7 +73,17 @@
             <p style="font-size: smaller;">Website: www.pdam.kabupatenagam.go.id Email: agampdam@yahoo.co.id</p>
             <hr class="long-hr">
             <h2>Surat Perintah Kerja Opname <br><span style="font-size: smaller;">(SPKO)</span></h2>
-            <p>Nomor {{ $pengaduan->id_pengaduan }} / SPKO/PDAM-AG/LBS/{{ date('m-Y') }}</p>
+            <p>Nomor {{ $pengaduan->id_pengaduan }} / SPKO/PDAM-AG/
+                {{ $pengaduan->wilayah_kejadian == 'lubuk basung' ? 'LBS' : 
+                   ($pengaduan->wilayah_kejadian == 'baso' ? 'BSO' : 
+                   ($pengaduan->wilayah_kejadian == 'IV angkek' ? 'IVa' : 
+                   ($pengaduan->wilayah_kejadian == 'maninjau' ? 'MNJ' : 
+                   ($pengaduan->wilayah_kejadian == 'tiku' ? 'TKU' : 
+                   ($pengaduan->wilayah_kejadian == 'batu kambing' ? 'BTK' : 
+                   ($pengaduan->wilayah_kejadian == 'matur' ? 'MTR' : 
+                   ($pengaduan->wilayah_kejadian == 'sungai pua' ? 'SGP' : 
+                   ($pengaduan->wilayah_kejadian == 'IV koto' ? 'IVk' : 'XXX')))))))) 
+                }}/{{ date('m-Y') }}</p>
         </div>
     </div>
     <div class="content">

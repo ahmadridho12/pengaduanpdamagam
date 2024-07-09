@@ -3,6 +3,8 @@
 @section('title', 'Detail Pengaduan')
     
 @section('css')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <style>
         .text-primary:hover {
             text-decoration: underline;
@@ -17,9 +19,9 @@
         }
 
         .btn-purple {
-            background: #233e99;
-            border: 1px solid #233e99;
-            color: #233e99;
+            background: #4C4DDC;
+            border: 1px solid #C3C4F3;
+            color: #4C4DDC;
             width: 100%;
         }
         
@@ -162,7 +164,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <a href="{{ route('pengaduan.cetakspko', ['id_pengaduan' => $pengaduan->id_pengaduan]) }}" class="btn btn-primary btn-block" target="_blank">Cetak SPKO</a>
+                    
                 </div>
             </div>
         </div>
@@ -206,7 +208,10 @@
                             <label for="keterangan">Keterangan</label>
                             <textarea name="keterangan" id="keterangan" class="form-control"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-purple">KIRIM</button>
+                        <button type="submit" class="btn btn-purple"><i class="fas fa-send"></i>KIRIM</button>
+                        <br>
+                        <br>
+                        <a href="{{ route('pengaduan.cetakspko', ['id_pengaduan' => $pengaduan->id_pengaduan]) }}" class="btn btn-primary btn-block" target="_blank" ><i class="fas fa-print"></i>Cetak SPKO</a>
                     </form>
                     @if (Session::has('status'))
                         <div class="alert alert-success mt-2">

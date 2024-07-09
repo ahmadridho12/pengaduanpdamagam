@@ -176,6 +176,9 @@ class UserController extends Controller
         // Masukkan semua data yg dikirim ke variable $data 
         $data = $request->all();
 
+         // Set default value for no_index if it's null
+         $data['no_index'] = $data['no_index'] ?? '';
+
         // Log data yang diterima
         Log::info('Data Received:', $data);
 
@@ -187,7 +190,9 @@ class UserController extends Controller
             'tgl_kejadian' => ['required'],
             'lokasi_kejadian' => ['required'],
             'wilayah_kejadian' => ['required'],
+            'no_index' => ['nullable'],
         ]);
+        
 
         // Log hasil validasi
         if ($validate->fails()) {

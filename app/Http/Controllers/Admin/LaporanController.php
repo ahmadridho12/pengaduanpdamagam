@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Pengaduan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Dompdf\Dompdf;
-use Dompdf\Options;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
@@ -14,81 +14,153 @@ class LaporanController extends Controller
 {
     public function index()
     {
-        return view('Admin.Laporan.index');
+        // Get all unique wilayah_kejadian from the Pengaduan table
+        $wilayah = Pengaduan::select('wilayah_kejadian')->distinct()->get();
+
+        return view('Admin.Laporan.index', [
+            'wilayah' => $wilayah,
+            'wilayah_kejadian' => null,
+            'from' => null,
+            'to' => null
+        ]);
     }
 
     public function getLaporan(Request $request)
     {
-        $from = $request->from . ' ' . '00:00:00';
-        $to = $request->to . ' ' . '23:59:59';
+        $from = $request->from . ' 00:00:00';
+        $to = $request->to . ' 23:59:59';
+        $wilayah_kejadian = $request->wilayah_kejadian;
 
-        $pengaduan = Pengaduan::whereBetween('tgl_pengaduan', [$from, $to])->get();
+        $query = Pengaduan::whereBetween('tgl_pengaduan', [$from, $to]);
 
-        return view('Admin.Laporan.index', ['pengaduan' => $pengaduan, 'from' => $from, 'to' => $to]);
+        if ($wilayah_kejadian && $wilayah_kejadian !== '') {
+            $query->where('wilayah_kejadian', $wilayah_kejadian);
+        }
+
+        $pengaduan = $query->get();
+
+        $wilayah = Pengaduan::select('wilayah_kejadian')->distinct()->get();
+
+        return view('Admin.Laporan.index', [
+            'pengaduan' => $pengaduan,
+            'from' => $request->from,
+            'to' => $request->to,
+            'wilayah' => $wilayah,
+            'wilayah_kejadian' => $wilayah_kejadian
+        ]);
     }
 
-    public function cetakLaporan($from, $to)
-{
-    $pengaduan = Pengaduan::whereBetween('tgl_pengaduan', [$from, $to])->get();
-
-    $dompdf = new Dompdf();
-    $dompdf->loadHtml(view('Admin.Laporan.cetak', [
-        'pengaduan' => $pengaduan,
-        'from' => $from,
-        'to' => $to
-    ])->render());
-
-    $dompdf->setPaper('A4', 'landscape');
-
-    $dompdf->render();
-    return $dompdf->stream('laporan-pengaduan.pdf');
-}
-    public function cetakLaporanExcel($from, $to)
+    public function cetakLaporan(Request $request)
     {
-        $pengaduan = Pengaduan::whereBetween('tgl_pengaduan', [$from, $to])->get();
+        $from = $request->from ? $request->from . ' 00:00:00' : null;
+        $to = $request->to ? $request->to . ' 23:59:59' : null;
+        $wilayah_kejadian = $request->wilayah_kejadian;
+
+        Log::info('Request parameters:', [
+            'from' => $from,
+            'to' => $to,
+            'wilayah_kejadian' => $wilayah_kejadian
+        ]);
+
+        $query = Pengaduan::query();
+
+        if ($from && $to) {
+            $query->whereBetween('tgl_pengaduan', [$from, $to]);
+        }
+
+        if ($wilayah_kejadian && $wilayah_kejadian !== '') {
+            $query->where('wilayah_kejadian', $wilayah_kejadian);
+        }
+
+        $pengaduan = $query->get();
+
+        Log::info('Query result:', [
+            'sql' => $query->toSql(),
+            'bindings' => $query->getBindings(),
+            'count' => $pengaduan->count()
+        ]);
+
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml(view('Admin.Laporan.cetak', [
+            'pengaduan' => $pengaduan,
+            'from' => $request->from,
+            'to' => $request->to,
+            'wilayah_kejadian' => $wilayah_kejadian
+        ])->render());
+    
+        $dompdf->setPaper('A4', 'landscape');
+    
+        $dompdf->render();
+        return $dompdf->stream('laporan-pengaduan.pdf');
+    }
+    
+
+    public function cetakLaporanExcel(Request $request)
+    {
+        $from = $request->from ? $request->from . ' 00:00:00' : null;
+        $to = $request->to ? $request->to . ' 23:59:59' : null;
+        $wilayah_kejadian = $request->wilayah_kejadian;
+
+        $query = Pengaduan::query();
+
+        if ($from && $to) {
+            $query->whereBetween('tgl_pengaduan', [$from, $to]);
+        }
+
+        if ($wilayah_kejadian && $wilayah_kejadian !== '') {
+            $query->where('wilayah_kejadian', $wilayah_kejadian);
+        }
+
+        $pengaduan = $query->get();
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
         // Menambahkan judul laporan
-        $sheet->mergeCells('A1:L1');
+        $sheet->mergeCells('A1:M1');
         $sheet->setCellValue('A1', 'Laporan Pengaduan Pelanggan');
-        $sheet->mergeCells('A2:L2');
+        $sheet->mergeCells('A2:M2');
         $sheet->setCellValue('A2', 'TIRTA ANTOKAN');
 
-        // Menambahkan header tabel
-        $sheet->setCellValue('A3', 'No');
-        $sheet->setCellValue('B3', 'Tanggal');
-        $sheet->setCellValue('C3', 'Nama');
-        $sheet->setCellValue('D3', 'No Telepon');
-        $sheet->setCellValue('E3', 'No Sambungan');
-        $sheet->setCellValue('F3', 'Kode Laporan');
-        $sheet->setCellValue('G3', 'Judul Laporan');
-        $sheet->setCellValue('H3', 'Isi Laporan');
-        $sheet->setCellValue('I3', 'Tanggal Kejadian');
-        $sheet->setCellValue('J3', 'Wilayah Kejadian');
-        $sheet->setCellValue('K3', 'Lokasi Kejadian');
-        $sheet->setCellValue('L3', 'Tanggal Dikerjakan');
-        $sheet->setCellValue('M3', 'Status');
+        // Menambahkan informasi periode, wilayah, total data, dan tanggal cetak
+        $row = 3;
+        if ($from && $to) {
+            $sheet->mergeCells('A'.$row.':M'.$row);
+            $sheet->setCellValue('A'.$row, 'Periode: ' . \Carbon\Carbon::parse($from)->format('d-M-Y') . ' - ' . \Carbon\Carbon::parse($to)->format('d-M-Y'));
+            $row++;
+        }
+        if ($wilayah_kejadian && $wilayah_kejadian !== '') {
+            $sheet->mergeCells('A'.$row.':M'.$row);
+            $sheet->setCellValue('A'.$row, 'Wilayah Kejadian: ' . $wilayah_kejadian);
+            $row++;
+        }
+        $sheet->mergeCells('A'.$row.':M'.$row);
+        $sheet->setCellValue('A'.$row, 'Total Data: ' . $pengaduan->count());
+        $row++;
+        $sheet->mergeCells('A'.$row.':M'.$row);
+        $sheet->setCellValue('A'.$row, 'Dicetak pada: ' . now()->format('d-M-Y H:i:s'));
+        $row++;
 
-        // Menambahkan warna pada baris header tabel
-        $sheet->getStyle('A3:M3')->applyFromArray([
-            'fill' => [
-                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                'startColor' => [
-                    'rgb' => '5A5A5A',
-                ],
-            ],
-            'font' => [
-                'color' => [
-                    'rgb' => 'FFFFFF',
-                ],
-            ],
-        ]);
-        
+        // Menambahkan baris kosong
+        $row++;
+
+        // Menambahkan header tabel
+        $sheet->setCellValue('A'.$row, 'No');
+        $sheet->setCellValue('B'.$row, 'Tanggal');
+        $sheet->setCellValue('C'.$row, 'Nama');
+        $sheet->setCellValue('D'.$row, 'No Telepon');
+        $sheet->setCellValue('E'.$row, 'No Sambungan');
+        $sheet->setCellValue('F'.$row, 'Kode Laporan');
+        $sheet->setCellValue('G'.$row, 'Judul Laporan');
+        $sheet->setCellValue('H'.$row, 'Isi Laporan');
+        $sheet->setCellValue('I'.$row, 'Tanggal Kejadian');
+        $sheet->setCellValue('J'.$row, 'Wilayah Kejadian');
+        $sheet->setCellValue('K'.$row, 'Lokasi Kejadian');
+        $sheet->setCellValue('L'.$row, 'Tanggal Dikerjakan');
+        $sheet->setCellValue('M'.$row, 'Status');
+        $row++;
 
         // Menambahkan data pengaduan
-        $row = 4;
         foreach ($pengaduan as $k => $v) {
             $sheet->setCellValue('A'.$row, $k + 1);
             $sheet->setCellValue('B'.$row, $v->tgl_pengaduan->format('d-M-Y'));
@@ -101,10 +173,6 @@ class LaporanController extends Controller
             $sheet->setCellValue('I'.$row, $v->tgl_kejadian->format('d-M-Y'));
             $sheet->setCellValue('J'.$row, $v->wilayah_kejadian);
             $sheet->setCellValue('K'.$row, $v->lokasi_kejadian);
-
-            // Menambahkan data "Tanggal Dikerjakan" dari $v->tgl_tanggapan yang berasal dari tabel tanggapan dengan pengecekan null:
-            // - Jika $v->tanggapan tidak null dan $v->tanggapan->tgl_tanggapan tidak null, maka gunakan format 'd-M-Y', jika null, gunakan string kosong ''
-            // - Jika $v->tanggapan null, maka gunakan string kosong ''
             $sheet->setCellValue('L'.$row, $v->tanggapan && $v->tanggapan->tgl_tanggapan ? date('d-M-Y', strtotime($v->tanggapan->tgl_tanggapan)) : '');
             $sheet->setCellValue('M'.$row, $v->status == '0' ? 'Pending' : ucwords($v->status));
             $row++;

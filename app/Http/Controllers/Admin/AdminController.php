@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Petugas;
+use App\Models\Pengaduan;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -46,6 +47,31 @@ class AdminController extends Controller
         return redirect()->route('admin.formLogin');
     }
 
-    
+    public function store(Request $request)
+{
+    // Validasi input
+    $validatedData = $request->validate([
+        'nama' => 'required',
+        'no_hp' => 'required',
+        'judul_laporan' => 'required',
+        'tgl_kejadian' => 'required|date',
+        'wilayah_kejadian' => 'required',
+        'isi_laporan' => 'required',
+        'lokasi_kejadian' => 'required',
+        // Tambahkan validasi lain sesuai kebutuhan
+    ]);
+
+    // Simpan data pengaduan
+    $pengaduan = Pengaduan::create($validatedData);
+
+    // Generate kode laporan
+    $kodeLaporan = 'LP' . str_pad($pengaduan->id, 5, '0', STR_PAD_LEFT);
+
+    // Update kode laporan
+    $pengaduan->update(['kode_laporan' => $kodeLaporan]);
+
+    // Redirect kembali ke halaman yang sama dengan pesan sukses dan kode laporan
+    return redirect()->back()->with('success', 'Pengaduan berhasil disimpan. Kode Laporan: ' . $kodeLaporan);
+}
 
 }

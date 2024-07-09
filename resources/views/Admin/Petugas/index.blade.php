@@ -2,6 +2,8 @@
 
 @section('css')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <style>
         .table {
             background-color: #e6f7ff; /* Light blue background color */
@@ -18,7 +20,8 @@
 @section('header', 'Data Petugas')
 
 @section('content')
-    <a href="{{ route('petugas.create') }}" class="btn btn-purple mb-2">Tambah Petugas</a>
+    <a href="{{ route('petugas.create') }}" class="btn btn-purple mb-2">
+        <i class="fas fa-plus"></i><span style="margin-left: 5px;">Tambah Petugas </span></a>
     <table id="petugasTable" class="table">
         <thead>
             <tr>

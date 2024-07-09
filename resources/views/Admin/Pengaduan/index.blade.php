@@ -43,8 +43,10 @@
 @endsection
 
 @section('header', 'Data Pengaduan')
-
 @section('content')
+<a href="{{ route('pengaduan.create') }}" class="btn btn-purple mb-2">
+    <i class="fas fa-plus"></i><span style="margin-left: 5px;"> Tambah Pengaduan </span>
+</a>
 <div class="scrollable-table">
     <table id="pengaduanTable" class="table">
         <thead>

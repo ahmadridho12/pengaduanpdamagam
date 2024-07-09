@@ -8,8 +8,8 @@
 
     <title>@yield('title')</title>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
-        integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     
     <!-- Load your custom CSS file -->
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}"> <!-- Adjust the path accordingly -->
@@ -27,7 +27,7 @@
         bottom: 0;
         z-index: 100;
         overflow: hidden; /* Use 'hidden' to disable scrolling */
-    }
+        }
         
         .btn-purple {
             background: #233e99;
@@ -88,7 +88,7 @@
     <div class="wrapper">
         <nav id="sidebar">
             <div class="sidebar-header">
-                <img src="{{ asset('images/logopdam.png') }}" alt="TIRTA ANTOKAN Logo" class="logo-img" style="width: 80px;">
+                <img src="{{ asset('images/logoperumda.png') }}" alt="TIRTA ANTOKAN Logo" class="logo-img" style="width: 80px;">
                 <div class="text-container">
                     <h5 class="mb-0">PERUMDA <br><span>Tirta Antokan</span></h5>
                 </div>

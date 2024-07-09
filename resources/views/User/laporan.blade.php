@@ -58,7 +58,7 @@
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
                     <div class="d-flex align-items-center">
-                        <img src="{{ asset('images/logopdam.png') }}" alt="TIRTA ANTOKAN Logo" class="logo-img" style="width: 100px;">
+                        <img src="{{ asset('images/logoperumda.png') }}" alt="TIRTA ANTOKAN Logo" class="logo-img" style="width: 100px;">
                         <div class="d-flex flex-column ml-3" style="margin-top: 20px;">
                             <h4 class="semi-bold mb-0 text-white">TIRTA ANTOKAN</h4>
                             <p class="italic mt-0 text-white">Pengaduan Pelanggan</p>
@@ -180,11 +180,11 @@
             </tr>
             <tr>
                 <td>Tanggal Tanggapan</td>
-                <td>{{ $laporan->tanggapan->tgl_tanggapan instanceof \Carbon\Carbon ? $laporan->tanggapan->tgl_tanggapan->format('d M Y') : $laporan->tanggapan->tgl_tanggapan }}</td>
+                <td style="color: green">{{ $laporan->tanggapan->tgl_tanggapan instanceof \Carbon\Carbon ? $laporan->tanggapan->tgl_tanggapan->format('d M Y') : $laporan->tanggapan->tgl_tanggapan }}</td>
             </tr>
             <tr>
                 <td>Keterangan Tanggapan</td>
-                <td>{{ $laporan->tanggapan->keterangan }}</td>
+                <td style="color: green">{{ $laporan->tanggapan->keterangan }}</td>
             </tr>
             <tr>
                 <td>Foto Tanggapan</td>

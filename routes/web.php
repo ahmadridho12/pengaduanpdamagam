@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\TambahController;
 use App\Http\Controllers\Admin\LaporanController;
 use App\Http\Controllers\Admin\MasyarakatController;
 use App\Http\Controllers\Admin\PengaduanController;
@@ -22,16 +23,21 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+#pengaduan tambah
+Route::get('admin/pengaduan/tambah', 'PengaduanController@tambah')->name('pengaduan.tambah');
 Route::get('/laporan', 'App\Http\Controllers\User\UserController@show')->name('laporan');
 
 Route::get('/', [UserController::class, 'index'])->name('pekat.index');
 
+
 Route::post('/masyarakat/sendverification', [EmailController::class, 'sendVerification'])->name('pekat.sendVerification');
 Route::get('/masyarakat/verify/{nik}', [EmailController::class, 'verify'])->name('pekat.verify');
+
 
 Route::middleware([])->group(function () {
     // Pengaduan
     Route::post('/store', [UserController::class, 'storePengaduan'])->name('pekat.store');
+    
     Route::get('/laporan/{siapa?}', [UserController::class, 'laporan'])->name('pekat.landing');
 
     // Logout Masyarakat
@@ -74,6 +80,7 @@ Route::prefix('admin')->group(function () {
         
         // Pengaduan
         Route::resource('pengaduan', PengaduanController::class);
+        Route::post('/pengaduan/store', [PengaduanController::class, 'store'])->name('pengaduan.store');
 
         // Taanggapan
         Route::post('tanggapan/createOrUpdate', [TanggapanController::class, 'createOrUpdate'])->name('tanggapan.createOrUpdate');
