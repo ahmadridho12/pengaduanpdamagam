@@ -100,6 +100,11 @@
             </div>
         </div>
     </div>
+    @if(session('excel_generated'))
+        <div class="alert alert-success">
+            File Excel berhasil dibuat. Silakan periksa file yang didownload.
+        </div>
+    @endif
 @endsection
 @section('js')
     <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
