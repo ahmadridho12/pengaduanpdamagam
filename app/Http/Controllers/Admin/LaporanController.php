@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Log;
 use Dompdf\Dompdf;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Border; 
 
 class LaporanController extends Controller
 {
@@ -111,18 +112,12 @@ class LaporanController extends Controller
         $request->validate([
             'from' => 'nullable|date',
             'to' => 'nullable|date',
-            'wilayah_kejadian' => 'nullable|string'
+            'wilayah_kejadian' => 'nullable|string',
         ]);
 
         $from = $request->from ? $request->from . ' 00:00:00' : null;
         $to = $request->to ? $request->to . ' 23:59:59' : null;
         $wilayah_kejadian = $request->wilayah_kejadian;
-
-        Log::info('Received input:', [
-            'from' => $from,
-            'to' => $to,
-            'wilayah_kejadian' => $wilayah_kejadian
-        ]);
 
         $query = Pengaduan::query();
 
@@ -134,59 +129,84 @@ class LaporanController extends Controller
             $query->where('wilayah_kejadian', $wilayah_kejadian);
         }
 
-        Log::info('Query debugging:', [
-            'sql' => $query->toSql(),
-            'bindings' => $query->getBindings()
-        ]);
-
         $pengaduan = $query->get();
 
-        Log::info('Query result:', [
-            'count' => $pengaduan->count(),
-            'results' => $pengaduan->toArray()
-        ]);
-
         $spreadsheet = new Spreadsheet();
-        $sheet1 = $spreadsheet->getActiveSheet();
-        $sheet1->setTitle('Laporan Pengaduan');
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setTitle('Laporan Pengaduan');
 
-        $sheet1->setCellValue('A1', 'No');
-        $sheet1->setCellValue('B1', 'Tanggal');
-        $sheet1->setCellValue('C1', 'Nama');
-        $sheet1->setCellValue('D1', 'No Telepon');
-        $sheet1->setCellValue('E1', 'No Sambungan');
-        $sheet1->setCellValue('F1', 'Kode Laporan');
-        $sheet1->setCellValue('G1', 'Judul Laporan');
-        $sheet1->setCellValue('H1', 'Isi Laporan');
-        $sheet1->setCellValue('I1', 'Tanggal Kejadian');
-        $sheet1->setCellValue('J1', 'Wilayah Kejadian');
-        $sheet1->setCellValue('K1', 'Lokasi Kejadian');
-        $sheet1->setCellValue('L1', 'Tanggal Dikerjakan');
-        $sheet1->setCellValue('M1', 'Status');
+        // Set judul laporan
+        $sheet->setCellValue('A1', 'Laporan Pengaduan Pelanggan');
+        $sheet->setCellValue('A2', 'TIRTA ANTOKAN');
 
-        $row = 2;
-        foreach ($pengaduan as $k => $v) {
-            $sheet1->setCellValue('A'.$row, $k + 1);
-            $sheet1->setCellValue('B'.$row, \Carbon\Carbon::parse($v->tgl_pengaduan)->format('d-M-Y'));
-            $sheet1->setCellValue('C'.$row, $v->nama);
-            $sheet1->setCellValue('D'.$row, $v->no_hp);
-            $sheet1->setCellValue('E'.$row, $v->no_index);
-            $sheet1->setCellValue('F'.$row, $v->kode_laporan);
-            $sheet1->setCellValue('G'.$row, $v->judul_laporan);
-            $sheet1->setCellValue('H'.$row, $v->isi_laporan);
-            $sheet1->setCellValue('I'.$row, \Carbon\Carbon::parse($v->tgl_kejadian)->format('d-M-Y'));
-            $sheet1->setCellValue('J'.$row, $v->wilayah_kejadian);
-            $sheet1->setCellValue('K'.$row, $v->lokasi_kejadian);
-            $sheet1->setCellValue('L'.$row, $v->tgl_dikerjakan ? \Carbon\Carbon::parse($v->tgl_dikerjakan)->format('d-M-Y') : '');
-            $sheet1->setCellValue('M'.$row, $v->status);
+        // Merge cells for title
+        $sheet->mergeCells('A1:L1');
+        $sheet->mergeCells('A2:L2');
+
+        // Set style for title
+        $sheet->getStyle('A1:A2')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('A1:A2')->getFont()->setSize(16)->setBold(true)->getColor()->setARGB('FFFFFFFF');
+        $sheet->getStyle('A1:A2')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('FF1F497D');
+
+        // Set header column names
+        $sheet->setCellValue('A3', 'No');
+        $sheet->setCellValue('B3', 'Tanggal Pengaduan');
+        $sheet->setCellValue('C3', 'Nama Pelapor');
+        $sheet->setCellValue('D3', 'No Telepon');
+        $sheet->setCellValue('E3', 'No Sambungan');
+        $sheet->setCellValue('F3', 'Kode Laporan');
+        $sheet->setCellValue('G3', 'Judul Laporan');
+        $sheet->setCellValue('H3', 'Isi Laporan');
+        $sheet->setCellValue('I3', 'Tanggal Kejadian');
+        $sheet->setCellValue('J3', 'Wilayah Kejadian');
+        $sheet->setCellValue('K3', 'Lokasi Kejadian');
+        $sheet->setCellValue('L3', 'Status');
+
+        // Apply styles to header row
+        $headerCells = 'A3:L3';
+        $sheet->getStyle($headerCells)->getFont()->setBold(true);
+        $sheet->getStyle($headerCells)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle($headerCells)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('FFD9D9D9');
+
+        // Fill data rows
+        $row = 4;
+        foreach ($pengaduan as $key => $data) {
+            $sheet->setCellValue('A' . $row, $key + 1);
+            $sheet->setCellValue('B' . $row, $data->tgl_pengaduan->format('d-M-Y'));
+            $sheet->setCellValue('C' . $row, $data->nama);
+            $sheet->setCellValue('D' . $row, $data->no_hp);
+            $sheet->setCellValue('E' . $row, $data->no_index);
+            $sheet->setCellValue('F' . $row, $data->kode_laporan);
+            $sheet->setCellValue('G' . $row, $data->judul_laporan);
+            $sheet->setCellValue('H' . $row, $data->isi_laporan);
+            $sheet->setCellValue('I' . $row, $data->tgl_kejadian->format('d-M-Y'));
+            $sheet->setCellValue('J' . $row, $data->wilayah_kejadian);
+            $sheet->setCellValue('K' . $row, $data->lokasi_kejadian);
+            $sheet->setCellValue('L' . $row, $data->status == '0' ? 'Pending' : ucwords($data->status));
             $row++;
         }
 
-        $writer = new Xlsx($spreadsheet);
+        // Auto size columns
+        foreach(range('A','L') as $columnID) {
+            $sheet->getColumnDimension($columnID)->setAutoSize(true);
+        }
+
+        // Set borders for all cells
+        $highestRow = $sheet->getHighestRow();
+        $highestColumn = $sheet->getHighestColumn();
+        $sheet->getStyle('A3:' . $highestColumn . $highestRow)
+            ->getBorders()
+            ->getAllBorders()
+            ->setBorderStyle(Border::BORDER_THIN);
+
+        // Save Excel file to storage
         $fileName = 'laporan_pengaduan.xlsx';
         $filePath = public_path($fileName);
+
+        $writer = new Xlsx($spreadsheet);
         $writer->save($filePath);
 
+        // Download the file
         return response()->download($filePath)->deleteFileAfterSend(true);
     }
 }
