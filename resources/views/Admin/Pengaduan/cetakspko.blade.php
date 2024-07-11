@@ -61,14 +61,29 @@
         .lubukbasung {
             margin-left: 34px;
         }
+        .left-logo {
+            position: absolute;
+            top: -5px;
+            left: 0;
+            width: 140px;
+            height: 140px;
+        }
+        .right-logo {
+            position: absolute;
+            top: -5px;
+            right: 0;
+            width: 140px;
+            height: 140px;
+        }
     </style>
 </head>
 <body>
     <div class="header">
-        <img src="{{ public_path('images/logoperumda.png') }}" alt="Logo Perusahaan" class="right-logo" style="width: 160px; height: 160px; margin-top: -34px; margin-right:120px;">
+        <img src="{{ public_path('images/logoperumda.png') }}" alt="Logo Perusahaan" class="right-logo">
+        <img src="{{ public_path('images/agam.png') }}" alt="Logo Perusahaan" class="left-logo">
         <div class="company-info">
             <h3>PEMERINTAH KABUPATEN AGAM</h3>
-            <h2>PERUSAHAAN DAERAH AIR MINUM TIRTA ANTOKAN</h2>
+            <h2>PERUMDA AIR MINUM TIRTA ANTOKAN</h2>
             <p>JL. Dr. Mohammad Hatta, No. 531, Lubuk Basung <br><span>0812-6660-2112 - 26415</span></p>
             <p style="font-size: smaller;">Website: www.pdam.kabupatenagam.go.id Email: agampdam@yahoo.co.id</p>
             <hr class="long-hr">

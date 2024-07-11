@@ -10,9 +10,9 @@
 
     <title>Laporan Pengaduan</title>
     <style>
-         @page {
-         size: F4; /* Mengatur ukuran kertas ke A4 */
-         margin: 10mm; /* Mengatur margin halaman */
+        @page {
+            size: F4; /* Mengatur ukuran kertas ke A4 */
+            margin: 10mm; /* Mengatur margin halaman */
         }
 
         .content table { width: 100%; border-collapse: collapse; }
@@ -36,8 +36,6 @@
         @if($wilayah_kejadian)
             <small style="float: right; margin-right: 10px;">Wilayah Kejadian: {{ $wilayah_kejadian }}</small>
         @endif
-        
-       
         <br><br>
     </div>
     @if($pengaduan->isEmpty())
@@ -82,9 +80,8 @@
             </table>
         </div>
     @endif
-    
-        <small>Total Data: {{ $pengaduan->count() }}</small>
-        <small style="float: right; margin-right: 10px;">Dicetak pada: {{ now()->format('d-M-Y H:i:s') }}</small>
+    <small>Total Data: {{ $pengaduan->count() }}</small>
+    <small style="float: right; margin-right: 10px;">Dicetak pada: {{ now()->format('d-M-Y H:i:s') }}</small>
     <div class="page-number"></div>
 </body>
 </html>

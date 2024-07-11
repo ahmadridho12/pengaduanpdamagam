@@ -51,47 +51,34 @@ class LaporanController extends Controller
     }
 
     public function cetakLaporan(Request $request)
-    {
-        $from = $request->from ? $request->from . ' 00:00:00' : null;
-        $to = $request->to ? $request->to . ' 23:59:59' : null;
-        $wilayah_kejadian = $request->wilayah_kejadian;
+{
+    $from = $request->from ? $request->from . ' 00:00:00' : null;
+    $to = $request->to ? $request->to . ' 23:59:59' : null;
 
-        Log::info('Request parameters:', [
-            'from' => $from,
-            'to' => $to,
-            'wilayah_kejadian' => $wilayah_kejadian
-        ]);
+    // Filter berdasarkan wilayah kejadian jika wilayah dipilih
+    $query = Pengaduan::query();
+    if ($from && $to) {
+        $query->whereBetween('tgl_pengaduan', [$from, $to]);
+    }
+    if ($request->wilayah_kejadian && $request->wilayah_kejadian !== '') {
+        $query->where('wilayah_kejadian', $request->wilayah_kejadian);
+    }
 
-        $query = Pengaduan::query();
+    $pengaduan = $query->get();
 
-        if ($from && $to) {
-            $query->whereBetween('tgl_pengaduan', [$from, $to]);
-        }
+    // Load the view and generate PDF
+    $dompdf = new Dompdf();
+    $dompdf->loadHtml(view('Admin.Laporan.cetak', [
+        'pengaduan' => $pengaduan,
+        'from' => $request->from,
+        'to' => $request->to,
+        'wilayah_kejadian' => $request->wilayah_kejadian
+    ])->render());
 
-        if ($wilayah_kejadian && $wilayah_kejadian !== '') {
-            $query->where('wilayah_kejadian', $wilayah_kejadian);
-        }
+    $dompdf->setPaper('A4', 'landscape');
+    $dompdf->render();
 
-        $pengaduan = $query->get();
-
-        Log::info('Query result:', [
-            'sql' => $query->toSql(),
-            'bindings' => $query->getBindings(),
-            'count' => $pengaduan->count()
-        ]);
-
-        $dompdf = new Dompdf();
-        $dompdf->loadHtml(view('Admin.Laporan.cetak', [
-            'pengaduan' => $pengaduan,
-            'from' => $request->from,
-            'to' => $request->to,
-            'wilayah_kejadian' => $wilayah_kejadian
-        ])->render());
-    
-        $dompdf->setPaper('A4', 'landscape');
-    
-        $dompdf->render();
-        return $dompdf->stream('laporan-pengaduan.pdf');
+    // Stream the PDF to the browser
     }
     
 
@@ -208,101 +195,47 @@ class LaporanController extends Controller
         $sheet2->setCellValue('B1', 'Jumlah Pengaduan:');
         $sheet2->setCellValue('C1', $jumlahPengaduan);
 
-        // Menghitung jumlah untuk setiap judul laporan
-        $judulLaporan = $pengaduan->groupBy('judul_laporan')
-            ->map(function ($group) {
-                return $group->count();
-            })
-            ->sortDesc();
+        // Inisialisasi array untuk menghitung jenis keluhan
+        $jenisKeluhan = [
+            'air keruh' => 0,
+            'kebocoran' => 0,
+            'meteran' => 0,
+            'pemakaian' => 0,
+            'tidak dapat air' => 0,
+            'lainnya' => 0
+        ];
 
-        Log::info('Hasil perhitungan judul laporan:', $judulLaporan->toArray());
+        // Menghitung jumlah untuk setiap jenis keluhan
+        foreach ($pengaduan as $v) {
+            $judulLaporan = strtolower($v->judul_laporan);
+            $found = false;
+            foreach ($jenisKeluhan as $jenis => $count) {
+                if (strpos($judulLaporan, $jenis) !== false) {
+                    $jenisKeluhan[$jenis]++;
+                    $found = true;
+                    break;
+                }
+            }
+            if (!$found) {
+                $jenisKeluhan['lainnya']++;
+            }
+        }
 
-        // Menambahkan header untuk tabel judul laporan
-        $sheet2->setCellValue('A3', 'Judul Laporan');
+        Log::info('Hasil perhitungan jenis keluhan:', $jenisKeluhan);
+
+        // Menambahkan header untuk tabel jenis keluhan
+        $sheet2->setCellValue('A3', 'Jenis Keluhan');
         $sheet2->setCellValue('B3', 'Jumlah');
 
-        // Menambahkan data judul laporan dan jumlah ke dalam tabel pada worksheet 2
+        // Menambahkan data judul laporan dan jumlah keluhan ke dalam tabel pada worksheet 2
         $row = 4;
-        foreach ($judulLaporan as $judul => $jumlah) {
-            $sheet2->setCellValue('A' . $row, $judul);
+        foreach ($jenisKeluhan as $jenis => $jumlah) {
+            $sheet2->setCellValue('A' . $row, ucwords($jenis));
             $sheet2->setCellValue('B' . $row, $jumlah);
             $row++;
         }
 
-        // Menambahkan border pada seluruh data tabel di worksheet 2
-        $lastRow = $row - 1;
-        $styleArray = [
-            'borders' => [
-                'allBorders' => [
-                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                ],
-            ],
-        ];
-        $sheet2->getStyle('A3:B' . $lastRow)->applyFromArray($styleArray);
-
-        // Mengatur lebar kolom agar sesuai dengan isi data secara otomatis pada worksheet 2
-        foreach(range('A','B') as $columnID) {
-            $sheet2->getColumnDimension($columnID)->setAutoSize(true);
-        }
-
-        // Menebalkan header
-        $sheet2->getStyle('A3:B3')->getFont()->setBold(true);
-
-        // Menengahkan teks pada kolom jumlah
-        $sheet2->getStyle('B4:B' . $lastRow)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-
-        // Membuat grafik batang
-        $dataSeriesLabels = [
-            new \PhpOffice\PhpSpreadsheet\Chart\DataSeriesValues('String', 'Laporan Jenis Keluhan!$B$3', null, 1, ['Jumlah']),
-        ];
-
-        $xAxisTickValues = [
-            new \PhpOffice\PhpSpreadsheet\Chart\DataSeriesValues('String', 'Laporan Jenis Keluhan!$A$4:$A$' . $lastRow, null, $judulLaporan->count()),
-        ];
-
-        $dataSeriesValues = [
-            new \PhpOffice\PhpSpreadsheet\Chart\DataSeriesValues('Number', 'Laporan Jenis Keluhan!$B$4:$B$' . $lastRow, null, $judulLaporan->count()),
-        ];
-
-        $series = new \PhpOffice\PhpSpreadsheet\Chart\DataSeries(
-            \PhpOffice\PhpSpreadsheet\Chart\DataSeries::TYPE_BARCHART,
-            \PhpOffice\PhpSpreadsheet\Chart\DataSeries::GROUPING_CLUSTERED,
-            range(0, count($dataSeriesValues) - 1),
-            $dataSeriesLabels,
-            $xAxisTickValues,
-            $dataSeriesValues
-        );
-
-        $series->setPlotDirection(\PhpOffice\PhpSpreadsheet\Chart\DataSeries::DIRECTION_COL);
-
-        // Mengatur warna merah untuk semua batang
-        foreach ($dataSeriesValues as $dataSeriesValue) {
-            $color = new \PhpOffice\PhpSpreadsheet\Chart\ChartColor();
-            $color->setValue('FFFF0000'); // Warna merah (ARGB format)
-            $dataSeriesValue->setFillColor($color);
-        }
-
-        $plotArea = new \PhpOffice\PhpSpreadsheet\Chart\PlotArea(null, [$series]);
-        $legend = new \PhpOffice\PhpSpreadsheet\Chart\Legend(\PhpOffice\PhpSpreadsheet\Chart\Legend::POSITION_RIGHT, null, false);
-
-        $title = new \PhpOffice\PhpSpreadsheet\Chart\Title('Grafik Judul Laporan');
-        $yAxisLabel = new \PhpOffice\PhpSpreadsheet\Chart\Title('Jumlah');
-
-        $chart = new \PhpOffice\PhpSpreadsheet\Chart\Chart(
-            'chart1',
-            $title,
-            $legend,
-            $plotArea,
-            true,
-            0,
-            null,
-            $yAxisLabel
-        );
-
-        $chart->setTopLeftPosition('D3');
-        $chart->setBottomRightPosition('K18');
-
-        $sheet2->addChart($chart);
+        
 
         // Membuat objek Writer untuk menulis ke file
         $writer = new Xlsx($spreadsheet);
