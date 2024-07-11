@@ -13,6 +13,14 @@ $sheet = $spreadsheet->getActiveSheet();
 // Menetapkan judul laporan pada baris pertama
 $sheet->setCellValue('A1', 'Laporan Pengaduan Pelanggan');
 $sheet->setCellValue('A2', 'TIRTA ANTOKAN');
+@if ($from && $to)
+    <p>Periode: {{ \Carbon\Carbon::parse($from)->format('d-M-Y') }} sampai {{ \Carbon\Carbon::parse($to)->format('d-M-Y') }}</p>
+@endif
+
+@if ($wilayah_kejadian)
+    <p>Wilayah Kejadian: {{ $wilayah_kejadian }}</p>
+@endif
+
 
 // Menambahkan warna latar belakang pada sel A1
 $sheet->getStyle('A1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('FFFF0000');
