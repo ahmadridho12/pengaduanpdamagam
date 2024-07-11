@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title', 'Halaman Laporan')
-    
+
 @section('header', 'Laporan Pengaduan')
 @section('css')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
@@ -19,6 +19,7 @@
         }
     </style>
 @endsection
+
 @section('content')
     <div class="row">
         <div class="col-lg-4 col-12">
@@ -30,7 +31,7 @@
                     <form action="{{ route('laporan.getLaporan') }}" method="POST">
                         @csrf
                         <div class="form-group">
-                            <input type="text" name="from" class="form-control" placeholder="Tanggal Awal" onfocusin="(this.type='date')" onfocusout="(this.type='text')"required>
+                            <input type="text" name="from" class="form-control" placeholder="Tanggal Awal" onfocusin="(this.type='date')" onfocusout="(this.type='text')" required>
                         </div>
                         <div class="form-group">
                             <input type="text" name="to" class="form-control" placeholder="Tanggal Akhir" onfocusin="(this.type='date')" onfocusout="(this.type='text')" required>
@@ -53,15 +54,15 @@
                 <div class="card-header">
                     Data Berdasarkan Tanggal
                     <div class="float-right">
-                        @if ($pengaduan ?? '')
-                            <a href="{{ route('laporan.cetakLaporan', ['from' => $from, 'to' => $to]) }}" class="btn btn-danger">EXPORT PDF</a>
-                            <a href="{{ route('laporan.cetakLaporanExcel', ['from' => $from, 'to' => $to]) }}" class="btn btn-success">EXPORT EXCEL</a>
+                        @if (isset($pengaduan) && $pengaduan->isNotEmpty())
+                            <a href="{{ route('laporan.cetakLaporan', ['from' => $from, 'to' => $to, 'wilayah_kejadian' => $wilayah_kejadian]) }}" class="btn btn-danger">EXPORT PDF</a>
+                            <a href="{{ route('laporan.cetakLaporanExcel', ['from' => $from, 'to' => $to, 'wilayah_kejadian' => $wilayah_kejadian]) }}" class="btn btn-success">EXPORT EXCEL</a>
                         @endif
                     </div>
                 </div>
                 <div class="card-body">
-                    @if ($pengaduan ?? '')
-                        <table class="table">
+                    @if (isset($pengaduan) && $pengaduan->isNotEmpty())
+                        <table class="table" id="pengaduanTable">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -74,8 +75,8 @@
                             <tbody>
                                 @foreach ($pengaduan as $k => $v)
                                     <tr>
-                                        <td>{{ $k += 1 }}</td>
-                                        <td>{{ $v->tgl_pengaduan }}</td>
+                                        <td>{{ $k + 1 }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($v->tgl_pengaduan)->format('d-M-Y') }}</td>
                                         <td>{{ $v->nama }}</td>
                                         <td>{{ $v->wilayah_kejadian }}</td>
                                         <td>
@@ -106,11 +107,12 @@
         </div>
     @endif
 @endsection
+
 @section('js')
     <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#petugasTable').DataTable();
-        } );
+            $('#pengaduanTable').DataTable();
+        });
     </script>
 @endsection
