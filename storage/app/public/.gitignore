@@ -1,2 +1,7 @@
-*
-!.gitignore
+# Abaikan seluruh folder storage
+/storage/*
+
+# Kecualikan folder storage/app/public/assets
+!/storage/app/public/assets/
+!/storage/app/public/assets/pengaduan/
+!/storage/app/public/assets/pengaduan/*

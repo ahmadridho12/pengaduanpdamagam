@@ -106,6 +106,8 @@
                             <th>Foto</th>
                             <td>:</td>
                             <td><img src="{{ Storage::url($pengaduan->foto) }}" alt="Foto Pengaduan" class="embed-responsive"></td>
+                            <td>{{ Storage::url($pengaduan->foto) }}</td>
+
                             <tr>
                                 <th>Status</th>
                                 <td>:</td>
