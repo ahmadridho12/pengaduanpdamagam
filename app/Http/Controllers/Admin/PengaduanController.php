@@ -28,6 +28,7 @@ class PengaduanController extends Controller
     if ($tanggapan) {
         $tanggapan->tgl_tanggapan = Carbon::parse($tanggapan->tgl_tanggapan);
     }
+    Log::info('Pengaduan foto path:', ['foto' => $pengaduan->foto]);
 
     return view('Admin.Pengaduan.show', ['pengaduan' => $pengaduan, 'tanggapan' => $tanggapan]);
     }

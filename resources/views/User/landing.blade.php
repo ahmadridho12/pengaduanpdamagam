@@ -171,9 +171,10 @@
         <div style="float: right; z-index: 999;">
             <!-- Konten lain di sini -->
         </div>
-        {{-- <div style="display: flex; justify-content: flex-end;">
-            <img src="{{ asset('images/Group 55.png') }}" alt="TIRTA ANTOKAN Logo" class="penjelasan" style="width: 300px; margin-top: -130px; transform: translateX(-100px);">
-        </div> --}}
+        
+        {{-- {{ <div style="display: flex; justify-content: flex-end;">
+            <img src="{{ asset('images/headerrr.png') }}" alt="TIRTA ANTOKAN Logo" class="penjelasan" style="width: 300px; margin-top: -130px; transform: translateX(-100px);">
+        </div> }} --}}
             </div>
 
     <div class="wave wave1"></div>
