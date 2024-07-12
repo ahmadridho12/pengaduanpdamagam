@@ -1,7 +1,6 @@
-# Abaikan seluruh folder storage
-/storage/*
-
-# Kecualikan folder storage/app/public/assets
-!/storage/app/public/assets/
-!/storage/app/public/assets/pengaduan/
-!/storage/app/public/assets/pengaduan/*
+# Abaikan seluruh folder di storage
+/*
+# Kecualikan folder assets dan isinya
+!assets/
+!assets/pengaduan/
+!assets/pengaduan/*
