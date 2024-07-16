@@ -9,8 +9,9 @@
         integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 
     <style>
-        body {
-            background: #233e99;
+         body {
+            background: #233e99 url('{{ asset('images/image 8.png') }}') no-repeat center center fixed;
+            background-size: cover;
         }
 
         .btn-purple {
@@ -34,7 +35,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-5">
-                <h2 class="text-center text-white mb-0 mt-5">TIRTA ANTOKAN</h2>
+                <h2 class="text-center text-white mb-0 mt-5">PERUMDAM TIRTA ANTOKAN</h2>
                 <P class="text-center text-white mb-5">Pengaduan Pelanggan</P>
                 <div class="card mt-5">
                     <div class="card-body">
