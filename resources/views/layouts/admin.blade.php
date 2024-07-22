@@ -77,6 +77,47 @@
             background-color: #f8f9fa; /* Gaya untuk item aktif */
             color: #007bff;
         }
+        .submenu {
+    display: none;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+li:hover > .submenu {
+    display: block;
+}
+
+.submenu li {
+    position: relative;
+    padding-left: 20px;
+}
+
+.submenu li:hover > .submenu {
+    display: block;
+    left: 100%;
+    top: 0;
+}
+
+.submenu li a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.submenu li a:hover {
+    background-color: #f5f5f5;
+}
+
+.submenu .fas {
+    margin-right: 8px;
+}
+
     </style>
 
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
@@ -116,6 +157,54 @@
                         <i class="fas fa-file-alt"></i> Laporan
                     </a>
                 </li>
+                
+                    <li class="">
+                        <a href="">
+                            <i class="fas fa-file-alt"></i> Arsip
+                        </a>
+                        <ul class="submenu">
+                            <li class="{{ Request::is('admin/laporan/sk*') ? 'active' : '' }}">
+                                <a href=""><i class="fas fa-file-signature"></i> SK</a>
+                                <ul class="submenu">
+                                    <li class="{{ Request::is('admin/laporan/sk/direktur') ? 'active' : '' }}">
+                                        <a href=""><i class="fas fa-user-tie"></i> SK Direktur</a>
+                                    </li>
+                                    <li class="{{ Request::is('admin/laporan/sk/dewas') ? 'active' : '' }}">
+                                        <a href=""><i class="fas fa-users"></i> SK Dewas</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="{{ Request::is('admin/Arsip/indexmou') ? 'active' : '' }}">
+                                <a href="{{ route('indexmou') }}"><i class="fas fa-handshake"></i> MOU</a>
+                            </li>
+                            <li class="{{ Request::is('admin/laporan/voucher') ? 'active' : '' }}">
+                                <a href=""><i class="fas fa-ticket-alt"></i> Voucher</a>
+                            </li>
+                            <li class="{{ Request::is('admin/laporan/surat*') ? 'active' : '' }}">
+                                <a href=""><i class="fas fa-envelope"></i> Surat</a>
+                                <ul class="submenu">
+                                    <li class="{{ Request::is('admin/laporan/surat/masuk') ? 'active' : '' }}">
+                                        <a href=""><i class="fas fa-inbox"></i> Masuk</a>
+                                    </li>
+                                    <li class="{{ Request::is('admin/laporan/surat/keluar') ? 'active' : '' }}">
+                                        <a href=""><i class="fas fa-paper-plane"></i> Keluar</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="{{ Request::is('admin/laporan/peraturan') ? 'active' : '' }}">
+                                <a href=""><i class="fas fa-gavel"></i> Peraturan</a>
+                            </li>
+                            <li class="{{ Request::is('admin/laporan/sop') ? 'active' : '' }}">
+                                <a href=""><i class="fas fa-file-alt"></i> SOP</a>
+                            </li>
+                            <li class="{{ Request::is('admin/laporan/partner') ? 'active' : '' }}">
+                                <a href=""><i class="fas fa-handshake"></i> Partner</a>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                </li>
+                
                 @elseif(Auth::guard('admin')->user()->level == 'petugas')
                 <li class="{{ Request::is('admin/dashboard') ? 'active' : '' }}">
                     <a href="{{ route('dashboard.index') }}">

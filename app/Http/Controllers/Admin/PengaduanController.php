@@ -102,6 +102,23 @@ class PengaduanController extends Controller
             return redirect()->back()->with(['pengaduan' => 'Gagal terkirim!', 'type' => 'danger']);
         }
     }
+
+    public function destroy($id_pengaduan)
+{
+    // Cek apakah ada tanggapan yang terkait dengan pengaduan
+    $tanggapanCount = Tanggapan::where('id_pengaduan', $id_pengaduan)->count();
+
+    if ($tanggapanCount > 0) {
+        return redirect()->route('pengaduan.index')->withErrors(['error' => 'Pengaduan tidak bisa dihapus karena memiliki tanggapan terkait.']);
+    }
+
+    // Hapus pengaduan
+    $pengaduan = Pengaduan::findOrFail($id_pengaduan);
+    $pengaduan->delete();
+
+    return redirect()->route('pengaduan.index');
+}
+
     public function cetakPDF($id_pengaduan)
     {
         // Tingkatkan batas waktu eksekusi

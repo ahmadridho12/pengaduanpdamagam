@@ -124,6 +124,7 @@
                                     <span class="badge badge-success">Selesai</span>
                                 @endif
                             </td>
+
                         </tr>
                         <tr>
                             <th style="text-align:center" colspan="3">Tanggapan Petugas</th>
@@ -161,6 +162,7 @@
                                 @endif
                             </td>
                         </tr>
+                        
                     </tbody>
                 </table>
             </div>
@@ -193,10 +195,32 @@
                         <label for="keterangan">Keterangan</label>
                         <textarea name="keterangan" id="keterangan" class="form-control"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-purple"><i class="fas fa-send"></i>KIRIM</button>
-                    <br><br>
-                    <a href="{{ route('pengaduan.cetakspko', ['id_pengaduan' => $pengaduan->id_pengaduan]) }}" class="btn btn-primary btn-block" target="_blank"><i class="fas fa-print"></i>Cetak SPKO</a>
+                    <button type="submit" class="btn btn-purple"><i class="fas fa-send"></i> KIRIM</button>
                 </form>
+                
+                <br><br>
+                
+                <a href="{{ route('pengaduan.cetakspko', ['id_pengaduan' => $pengaduan->id_pengaduan]) }}" class="btn btn-primary btn-block" target="_blank"><i class="fas fa-print"></i> Cetak SPKO</a>
+                
+                @if ($pengaduan->id_pengaduan != 1)
+                    @php
+                        $hasTanggapan = \App\Models\Tanggapan::where('id_pengaduan', $pengaduan->id_pengaduan)->exists();
+                    @endphp
+
+                    @if ($hasTanggapan)
+                        <button class="btn btn-secondary mt-2" style="width: 100%" disabled>HAPUS LAPORAN</button>
+                    @else
+                        <form action="{{ route('pengaduan.destroy', $pengaduan->id_pengaduan) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger mt-2" style="width: 100%" onclick="return confirm('APAKAH YAKIN?')">HAPUS LAPORAN</button>
+                        </form>
+                    @endif
+                @endif
+                
+                <br><br>
+            </div>
+            
                 @if (Session::has('status'))
                     <div class="alert alert-success mt-2">
                         {{ Session::get('status') }}

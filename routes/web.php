@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\MasyarakatController;
 use App\Http\Controllers\Admin\PengaduanController;
 use App\Http\Controllers\Admin\PetugasController;
 use App\Http\Controllers\Admin\TanggapanController;
+use App\Http\Controllers\Admin\MouController;
 use App\Http\Controllers\User\EmailController;
 use App\Http\Controllers\User\SocialController;
 use App\Http\Controllers\User\UserController;
@@ -63,6 +64,10 @@ Route::prefix('admin')->group(function () {
         // Petugas
         Route::resource('petugas', PetugasController::class);
 
+        //admin
+        Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+
+
         // Masyarakat
         Route::resource('masyarakat', MasyarakatController::class);
 
@@ -98,8 +103,44 @@ Route::prefix('admin')->group(function () {
 
     //untuk tracking kode_laporan
     Route::get('/track-laporan', [UserController::class, 'trackLaporan'])->name('pekat.trackLaporan');
-    
+    // user ke halaman baru landing
+    Route::get('/user/new', [UserController::class, 'create'])->name('user.new');
+
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     });
+
+    //ini route untuk mou//
+    Route::get('admin/Arsip/indexmou', [MouController::class, 'indexmou'])->name('indexmou');
+    Route::get('mou/create', [MouController::class, 'create'])->name('mou.create');
+    Route::post('/storeMou', [MouController::class, 'storeMou'])->name('storeMou');
+    //halaman edit
+    Route::get('/arsip/editmou/{id}', [MouController::class, 'edit'])->name('Arsip.editmou');
+
+    //mou update
+  
+    Route::patch('/mou/update/{id}', [MouController::class, 'update'])->name('mou.update');
+
+
+    //mou delete
+    Route::delete('/mou/{id}', [MouController::class, 'destroy'])->name('mou.destroy');
+
+
+
+    //mengarahkan dari moucontroller//
+    Route::get('admin/Arsip/indexmou', [MouController::class, 'indexmou'])->name('indexmou');
+
+    // Tambahkan route untuk mengarahkan ke halaman createmou.blade.php
+    Route::post('mou/create', 'MouController@create')->name('mou.create');
+   //ini route untuk editmou//
+   Route::get('/mou/edit/{id_mou}', 'MouController@editmou')->name('mou.editmou');
+
+
+    // Tambahkan route untuk download file
+    Route::get('download/{file}', [App\Http\Controllers\Admin\MouController::class, 'downloadFile'])->name('download.file');
+
+    //pindah kehalaman new//
+    Route::get('/user/new', [UserController::class, 'pindah'])->name('user.new');
+
+
 });

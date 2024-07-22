@@ -149,7 +149,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-transparent">
         <div class="container">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="{{ route('user.new') }}">
                     <div class="d-flex align-items-center">
                         <img src="{{ asset('images/logoperumda.png') }}" alt="TIRTA ANTOKAN Logo" class="logo-img" style="width: 100px;">
                         <div class="d-flex flex-column ml-3" style="margin-top: 20px;">

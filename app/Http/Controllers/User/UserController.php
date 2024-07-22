@@ -268,4 +268,10 @@ class UserController extends Controller
         return view('user.laporan', ['pengaduan' => $pengaduan, 'hitung' => $hitung, 'kode_laporan' => '']);
     }
 }
+    ///mengarahkan ke halaman new
+    public function pindah()
+    {
+        // Logika untuk metode pindah
+        return view('user.new'); // Pastikan Anda memiliki view yang sesuai
+    }
 }
