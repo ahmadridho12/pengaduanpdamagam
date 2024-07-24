@@ -8,7 +8,9 @@ use App\Http\Controllers\Admin\MasyarakatController;
 use App\Http\Controllers\Admin\PengaduanController;
 use App\Http\Controllers\Admin\PetugasController;
 use App\Http\Controllers\Admin\TanggapanController;
+use App\Http\Controllers\Admin\RayonController;
 use App\Http\Controllers\Admin\MouController;
+use App\Http\Controllers\Admin\DirekturController;
 use App\Http\Controllers\User\EmailController;
 use App\Http\Controllers\User\SocialController;
 use App\Http\Controllers\User\UserController;
@@ -110,6 +112,11 @@ Route::prefix('admin')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     });
 
+   
+
+
+
+
     //ini route untuk mou//
     Route::get('admin/Arsip/indexmou', [MouController::class, 'indexmou'])->name('indexmou');
     Route::get('mou/create', [MouController::class, 'create'])->name('mou.create');
@@ -142,5 +149,27 @@ Route::prefix('admin')->group(function () {
     //pindah kehalaman new//
     Route::get('/user/new', [UserController::class, 'pindah'])->name('user.new');
 
+     //untuk rayon//
+    // Tambahkan route ini
+    Route::get('/get-rayons/{wilayah}', [RayonController::class, 'getRayons']);
+
+
+    ///untuk halaman direktur//
+
+    Route::get('admin/Arsip/direktur', [App\Http\Controllers\Admin\DirekturController::class, 'indexdirektur'])->name('indexdirektur');
+
+    //mengarahkan kehalaman createdirektur//
+    Route::get('/direktur/create', [DirekturController::class, 'create'])->name('direktur.create');
+
+    //mengarahkan storeDirektur//
+    Route::post('/direktur/store', [DirekturController::class, 'storeDirektur'])->name('storeDirektur');
 
 });
+
+// routes/api.php
+
+
+Route::get('/rayon_lubukbasung', [RayonController::class, 'getRayonLubukBasung']);
+Route::get('/rayon_tiku', [RayonController::class, 'getRayonTiku']);
+Route::get('/rayon_batukambing', [RayonController::class, 'getRayonBatukambing']);
+Route::get('/rayon_baso', [RayonController::class, 'getRayonBaso']);

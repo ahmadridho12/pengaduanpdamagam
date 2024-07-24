@@ -24,6 +24,7 @@ class CreatePengaduansTable extends Migration
         $table->text('isi_laporan');
         $table->dateTime('tgl_kejadian');
         $table->enum('wilayah_kejadian', ['lubuk basung', 'baso', 'IV angkek', 'maninjau', 'tiku', 'batu kambing', 'matur', 'sungai puar', 'IV koto']);
+        $table->string('rayon')->nullable(); // Menambahkan kolom rayon
         $table->text('lokasi_kejadian');
         $table->string('foto');
         $table->enum('status', ['0', 'proses', 'selesai']);

@@ -23,6 +23,7 @@ class Pengaduan extends Model
         'isi_laporan',
         'tgl_kejadian',
         'wilayah_kejadian',
+        'rayon',
         'lokasi_kejadian',
         'foto',
         'status',

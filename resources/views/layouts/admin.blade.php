@@ -166,8 +166,8 @@ li:hover > .submenu {
                             <li class="{{ Request::is('admin/laporan/sk*') ? 'active' : '' }}">
                                 <a href=""><i class="fas fa-file-signature"></i> SK</a>
                                 <ul class="submenu">
-                                    <li class="{{ Request::is('admin/laporan/sk/direktur') ? 'active' : '' }}">
-                                        <a href=""><i class="fas fa-user-tie"></i> SK Direktur</a>
+                                    <li class="{{ Request::is('admin/Arsip/direktur') ? 'active' : '' }}">
+                                        <a href="{{ route('indexdirektur') }}"><i class="fas fa-user-tie"></i> SK Direktur</a>
                                     </li>
                                     <li class="{{ Request::is('admin/laporan/sk/dewas') ? 'active' : '' }}">
                                         <a href=""><i class="fas fa-users"></i> SK Dewas</a>

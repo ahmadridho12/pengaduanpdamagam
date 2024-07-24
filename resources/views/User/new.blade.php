@@ -1,633 +1,479 @@
-<!doctype html>
-<html lang="en">
+@extends('layouts.user')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Elixir - Bootstrap Template</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css">
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/new.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+   
+
+    .btn-white {
+        background: #fff;
+        color: #000;
+        text-transform: uppercase;
+        padding: 0px 25px 0px 25px;
+        font-size: 14px;
+    }
+
+    .btn-facebook {
+        background: #233E99;
+        width: 100%;
+        color: #fff;
+        font-weight: 600;
+    }
+
+    .btn-facebook:hover {
+        background:#233E99;
+        width: 100%;
+        color: #fff;
+        font-weight: 600;
+    }
+
+    .btn-google {
+        background: #cf4332;
+        width: 100%;
+        color: #fff;
+        font-weight: 600;
+    }
+
+    .btn-google:hover {
+        background: #cf4332;
+        width: 100%;
+        color: #fff;
+        font-weight: 600;
+    }
+
+    .btn-copy {
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-copy i {
+        color: #007bff;
+        font-size: 1.2em;
+    }
+
+    .btn-copy:hover i {
+        color: #0056b3;
+    }
+    .btn-custom {
+        background-color: #233e99; /* Ganti dengan warna yang diinginkan */
+        color: white;
+    }
+
+    .card-custom {
+        background-color: #f8f9fa; /* Warna latar belakang card */
+        border-color: #233e99; /* Warna border card */
+    }
+    input::placeholder {
+            font-size: small; /* Atur ukuran font untuk placeholder */
+    }
+    select, option {
+            font-size: small; /* Atur ukuran font untuk select dan option */
+    }
+    textarea::placeholder {
+            font-size: small; /* Atur ukuran font untuk placeholder */
+    }
+    .red-asterisk {
+            color: red; /* Atur warna teks menjadi merah */
+    }
     
-</head>
+    .footer {
+            background-color: #233e99;;
+            color: #ffffff;;
+            margin-top: 40px;
+            padding: 20px;
+        }
+        .footer .container {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .footer .column {
+            flex: 1;
+            margin: 0 10px;
+        }
+        .footer .column h3 {
+            margin-bottom: 10px;
+            font-size: 16px;
+            text-transform: uppercase;
+        }
+        .footer .column a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .footer .column a:hover {
+            text-decoration: underline;
+        }
+        .footer .contact-info {
+            font-size: 14px;
+        }
+        .footer .social-icons {
+            margin-top: 10px;
+        }
+        .footer .social-icons a {
+            margin-right: 10px;
+            color: white;
+            font-size: 20px;
+            text-decoration: none;
+        }
+        .footer .bottom {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        .bold-text {
+            font-weight: bold;
+        }
+        .navbar.scrolled {
+            background-color: white !important; /* Warna latar belakang saat di-scroll */
+            transition: background-color 0.3s; /* Transisi halus */
+        }
+        .navbar.scrolled .nav-link {
+            color: black !important; /* Warna font saat di-scroll */
+        }
+        .navbar .nav-link {
+            color: white; /* Warna font default */
+        }
+        .navbar.scrolled .navbar-brand h4,
+        .navbar.scrolled .navbar-brand p {
+        color: black !important; /* Warna teks navbar-brand saat di-scroll */
+    }   
+        /*icon border */
+        .icon-border {
+        display: inline-block;
+        padding: 5px; /* Atur padding sesuai kebutuhan Anda */
+        border: 2px solid #0056b3; /* Warna dan ketebalan border */
+        background-color:#0056b3;
+        color: white;
+        border-radius: 5px; /* Atur radius sesuai kebutuhan Anda */
+    }
+    .slider {
+            display: flex;
+            overflow: hidden;
+            width: 100%;
+            height: 100px; /* Sesuaikan dengan tinggi kontainer slider */
+            align-items: center;
+        }
+        .slider .slide-track {
+            display: flex;
+            animation: scroll 20s linear infinite;
+        }
+        .slider .slide {
+            width: 260px; /* Lebar kontainer setiap slide */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .slider img {
+            width: 200px; /* Ubah ukuran gambar menjadi 60px */
+            height: auto; /* Menjaga rasio aspek gambar */
+        }
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
 
-<body data-bs-spy="scroll" data-bs-target=".navbar">
+        }
+        .container2 {
+            width: 100%;
+            overflow: hidden;
+            background-color: #f1f1f1;
+        }
+        .slider1 {
+            display: flex;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 100%;
+        }
 
-    <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg bg-white sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                {{-- <img src="{{ asset('images/logoperumda.png') }}" alt=""> --}}
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#hero">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#services">Services</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#portfolio">Portfolio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#reviews">Reviews</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#team">Team</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#contact">Contact</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#blog">Blog</a>
-                    </li>
-                </ul>
-                <a href="#" class="btn btn-brand ms-lg-3">Download</a>
+        .slide-track1 {
+            display: flex;
+            animation: scroll 20s linear infinite;
+        }
+
+        .slide1 {
+            display: inline-block;
+            padding: 10px 30px;
+            font-size: 14px;
+            background: none;
+            color: rgb(8, 3, 91);
+            margin: 0 10px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .slide1 i {
+            margin-right: 10px; /* Adjust this value for more or less spacing */
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+        
+</style>
+@endsection
+
+@section('title', 'TIRTA ANTOKAN - ')
+
+@section('content')
+{{-- Section Header --}}
+<section class="header">
+    
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: transparent;"> <!-- Ubah ini -->
+        <a class="navbar-brand" href="#" style="display: flex; align-items: center;">
+            <img src="{{ asset('images/logoperumda.png') }}" alt="TIRTA ANTOKAN Logo" class="logo-img" style="width: 60px; margin-right: 10px;">
+            <div class="d-flex flex-column" style="margin-top: 20px;">
+                <h4 class="semi-bold mb-0 text-white">PERUMDAM</h4>
+                <p class="italic mt-0 text-white">TIRTA ANTOKAN</p>
             </div>
+        </a>
+        
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="color: white;">
+                        Beranda
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">
+                        Profil
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#" style="color: grey;"> Sejarah</a>
+                        <a class="dropdown-item" href="#" style="color: grey;">Visi&Misi</a>
+                        <a class="dropdown-item" href="#" style="color: grey;">Direksi</a>
+                        <a class="dropdown-item" href="#" style="color: grey;">Struktur Organisasi</a>
+                        
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">
+                        Layanan
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#" style="color: grey;">Simulasi</a>
+                        <a class="dropdown-item" href="#" style="color: grey;">Pengaduan</a>
+                        <a class="dropdown-item" href="#" style="color: grey;">Monitoring Pengaduan</a>
+                        <a class="dropdown-item" href="#" style="color: grey;">Loket Pembayaran</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">
+                        Publikasi
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#" style="color: grey;">Berita</a>
+                        <a class="dropdown-item" href="#" style="color: grey;">Informasi gangguan</a>
+                        <a class="dropdown-item" href="#" style="color: grey;">Informasi gangguan</a>
+                        <a class="dropdown-item" href="#" style="color: grey;">Tarif Air Minum</a>
+                        <a class="dropdown-item" href="#" style="color: grey;">Tahukah Anda</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="color: white;">
+                        Contact
+                    </a>
+                </li>
+            </ul>
         </div>
     </nav>
+    <div class="container1">
+        <h1>Perusahaan Umum Daerah</h1>
+        <h2>Tirta Antokan</h2>
+        <p>Handal & Prima</p>
+        <p>Handal dalam pekerjaan, prima dalam pelayanan</p>
+        <div class="buttons">
+            <button>Profil Perusahaan</button>
+            
+        </div>
+    </div>
+    <div style="position: relative;">
+        <div style="float: right; z-index: 999;">
+            <!-- Konten lain di sini -->
+        </div>
+        
+        {{-- {{ <div style="display: flex; justify-content: flex-end;">
+            <img src="{{ asset('images/headerrr.png') }}" alt="TIRTA ANTOKAN Logo" class="penjelasan" style="width: 300px; margin-top: -130px; transform: translateX(-100px);">
+        </div> }} --}}
+            </div>
 
-    <!-- HERO -->
-    <section id="hero" class="min-vh-100 d-flex align-items-center text-center">
+    <div class="wave wave1"></div>
+    <div class="wave wave2"></div>
+    <div class="wave wave3"></div>
+    <div class="wave wave4"></div>
+</section>
+<div class="container mt-2">
+    <div class="slider1">
+        <div class="slide-track1">
+            <div class="slide1">
+                <i class="fa fa-credit-card" aria-hidden="true"></i> DIINFORMASIKAN UNTUK MELAKUKAN PEMBAYARAN TAGIHAN AIR SEBELUM TANGGAL 20 SETIAP BULANNYA
+            </div>
+            <div class="slide1">
+                <i class="fa fa-info-circle " aria-hidden="true"></i> UNTUK INFORMASI TAGIHAN DAN PENGADUAN ADA DIMENU LAYANAN
+            </div>
+            </div>
+            <!-- Ulangi elemen slide untuk membuat loop -->
+            <div class="slide1">
+                <i class="fa fa-credit-card" aria-hidden="true"></i> DIINFORMASIKAN UNTUK MELAKUKAN PEMBAYARAN TAGIHAN AIR SEBELUM TANGGAL 20 SETIAP BULANNYA
+            </div>
+            <div class="slide1">
+                <i class="fa fa-info-circle " aria-hidden="true"></i> UNTUK INFORMASI TAGIHAN DAN PENGADUAN ADA DIMENU LAYANAN
+            </div>
+           
+        </div>
+    </div>
+</div>
+<br><br><br>
+<div class="container mt-4">
+    <div class="text-center mb-4">
+        <h3>Pengumuman Tirta Antokan</h3>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card1">
+                <h5>
+                    <span class="icon-border">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                    </span>
+                    Info Gangguan
+                </h5><br>
+                <h7>24/07 <span> perbaikan pompa tiku</span></h7>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+<br>
+<br>
+
+<div class="container mt-4">
+    <div class="text-center mb-4">
+        <h3>Berita Tirta Antokan</h3>
+        <h7>Berita dan informasi seputar Perusahaan Umum Daerah Tirta Antokan</h7>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card2">
+                <img src="{{ asset('images/avatar-3.jpg') }}" class="card-img-top" alt="Berita 1"> <!-- Tambahkan gambar -->
+                <div class="card-body">
+                    <h5 class="card-title">Berita 1</h5>
+                    <h6 class="card-text" style="color: #000">Deskripsi singkat berita 1.</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card2">
+                <img src="{{ asset('images/avatar-2.jpg') }}" class="card-img-top" alt="Berita 2"> <!-- Tambahkan gambar -->
+                <div class="card-body">
+                    <h5 class="card-title">Berita 2</h5>
+                    <h6 class="card-text">Deskripsi singkat berita 2.</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card2">
+                <img src="{{ asset('images/avatar-1.jpg') }}" class="card-img-top" alt="Berita 3"> <!-- Tambahkan gambar -->
+                <div class="card-body">
+                    <h5 class="card-title">Berita 3</h5>
+                    <h6 class="card-text">Deskripsi singkat berita 3.</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br><br>
+<div class="container mt-4">
+    <div class="text-center mb-4">
+        <h3>Mitra Kami</h3>
+        <h7>Tempat Pembayaran Dapat dilakukan dimitra kami</h7>
+    </div>
+    <div class="slider">
+        <div class="slide-track">
+            <div class="slide"><img src="{{ asset('images/bni.png') }}" alt="Logo 1"></div>
+            <div class="slide"><img src="{{ asset('images/nagari.png') }}" alt="Logo 2"></div>
+            <div class="slide"><img src="{{ asset('images/mandiri.png') }}" alt="Logo 3"></div>
+            <div class="slide"><img src="{{ asset('images/bsi.png') }}" alt="Logo 4"></div>
+            <div class="slide"><img src="{{ asset('images/pos.png') }}" alt="Logo 5"></div>
+            <!-- Ulangi elemen slide untuk membuat loop -->
+            <div class="slide"><img src="{{ asset('images/bni.png') }}" alt="Logo 1"></div>
+            <div class="slide"><img src="{{ asset('images/nagari.png') }}" alt="Logo 2"></div>
+            <div class="slide"><img src="{{ asset('images/mandiri.png') }}" alt="Logo 3"></div>
+            <div class="slide"><img src="{{ asset('images/bsi.png') }}" alt="Logo 4"></div>
+            <div class="slide"><img src="{{ asset('images/pos.png') }}" alt="Logo 4"></div>
+            
+        </div>
+    </div>
+</div>
+
+{{-- Footer --}}
+
+    <footer class="footer">
         <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <h1 data-aos="fade-left" class="text-uppercase text-white fw-semibold display-1">Welcome to elixir</h1>
-                    <h5 class="text-white mt-3 mb-4" data-aos="fade-right">WE ARE TEAM OF TALENTED DESIGNERS MAKING WEBSITES WITH BOOTSTRAP</h5>
-                    <div data-aos="fade-up" data-aos-delay="50">
-                        <a href="#" class="btn btn-brand me-2">Get Started</a>
-                        <a href="#" class="btn btn-light ms-2">Our Portfolio</a>
-                    </div>
+            <div class="column">
+                <h3 class="bold-text">Unit</h3>
+                <a class="contact-info"> <span>Unit Baso</span> <br>Jl. Sungai Janiah</a>
+                <a class="contact-info"> <span ">Unit IV Angkek </span> <br>Jln. Ampang Gadang</a>
+                <a class="contact-info"> <span >Unit Matur</span> <br>Jl. Tanjung Lurah</a>
+                <a class="contact-info"> <span>Unit Sei.Puar</span> <br>Jl. Raya Limo Suku</a>
+            </div>
+            <div class="column">
+                <h3></h3>
+                <a class="contact-info"> <span>Unit Maninjau</span> <br>Jln. Pasar Ahad</a>
+                <a class="contact-info"> <span>Unit Batu Kambing</span> <br>Jl. Kampung Pinang, Kec. IV Nagari</a>
+                <a class="contact-info"> <span>Unit Tiku</span> <br>Jl. Sungai Libuang</a>
+                <a class="contact-info"> <span>Unit IV Koto</span> <br></a>
+            </div>
+            <div class="column">
+                <h3 class="bold-text">Kontak</h3>
+                <div class="contact-info">
+                    Jl. DR. Mohd Hatta No. 531<br>
+                    Lubuk Basung<br>
+                    Kab Agam, Sumatera Barat 26542<br>
+                    Office: 0752 - 8701910<br>
+                    Whatsapp Enterprise: +62812-6660-2112<br>
+                    Email: agampdam@yahoo.co.id
+                </div>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/share/kmUz6tne711zmKZo/?mibextid=qi2Omg"><i class="fa fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/perumdam_tirta_antokan?igsh=OG4zZHRueDhsenJl"><i class="fa fa-instagram"></i></a>
+                    <a href="https://wa.me/+6281266602112"><i class="fa fa-whatsapp"></i></a>
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section id="about" class="section-padding">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center" data-aos="fade-down" data-aos-delay="50">
-                    <div class="section-title">
-                        <h1 class="display-4 fw-semibold">About us</h1>
-                        <div class="line"></div>
-                        <p>We love to craft digital experiances for brands rather than crap and more lorem ipsums and do crazy skills</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row justify-content-between align-items-center">
-                <div class="col-lg-6" data-aos="fade-down" data-aos-delay="50">
-                    <img src="./assets/images/about.jpg" alt="">
-                </div>
-                <div data-aos="fade-down" data-aos-delay="150" class="col-lg-5">
-                    <h1>About Elixir</h1>
-                    <p class="mt-3 mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit quo reiciendis ad.</p>
-                    <div class="d-flex pt-4 mb-3">
-                        <div class="iconbox me-4">
-                            <i class="ri-mail-send-fill"></i>
-                        </div>
-                        <div>
-                            <h5>We are Awesome</h5>
-                            <p>Consectetur adipisicing elit. Corporis nesciunt aut temporibus!</p>
-                        </div>
-                    </div>
-                    <div class="d-flex mb-3">
-                        <div class="iconbox me-4">
-                            <i class="ri-user-5-fill"></i>
-                        </div>
-                        <div>
-                            <h5>We are Awesome</h5>
-                            <p>Consectetur adipisicing elit. Corporis nesciunt aut temporibus!</p>
-                        </div>
-                    </div>
-                    <div class="d-flex">
-                        <div class="iconbox me-4">
-                            <i class="ri-rocket-2-fill"></i>
-                        </div>
-                        <div>
-                            <h5>We are Awesome</h5>
-                            <p>Consectetur adipisicing elit. Corporis nesciunt aut temporibus!</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SERVICES -->
-    <section id="services" class="section-padding border-top">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center" data-aos="fade-down" data-aos-delay="150">
-                    <div class="section-title">
-                        <h1 class="display-4 fw-semibold">Awesome Services</h1>
-                        <div class="line"></div>
-                        <p>We love to craft digital experiances for brands rather than crap and more lorem ipsums and do crazy skills</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row g-4 text-center">
-                <div class="col-lg-4 col-sm-6" data-aos="fade-down" data-aos-delay="150">
-                    <div class="service theme-shadow p-lg-5 p-4">
-                        <div class="iconbox">
-                            <i class="ri-pen-nib-fill"></i>
-                        </div>
-                        <h5 class="mt-4 mb-3">UX Design</h5>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet fugiat sunt distinctio?</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-sm-6" data-aos="fade-down" data-aos-delay="250">
-                    <div class="service theme-shadow p-lg-5 p-4">
-                        <div class="iconbox">
-                            <i class="ri-stack-fill"></i>
-                        </div>
-                        <h5 class="mt-4 mb-3">UI Design</h5>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet fugiat sunt distinctio?</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-sm-6" data-aos="fade-down" data-aos-delay="350">
-                    <div class="service theme-shadow p-lg-5 p-4">
-                        <div class="iconbox">
-                            <i class="ri-ruler-2-fill"></i>
-                        </div>
-                        <h5 class="mt-4 mb-3">Logo Design</h5>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet fugiat sunt distinctio?</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-sm-6" data-aos="fade-down" data-aos-delay="450">
-                    <div class="service theme-shadow p-lg-5 p-4">
-                        <div class="iconbox">
-                            <i class="ri-pie-chart-2-fill"></i>
-                        </div>
-                        <h5 class="mt-4 mb-3">Digital Marketing</h5>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet fugiat sunt distinctio?</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-sm-6" data-aos="fade-down" data-aos-delay="550">
-                    <div class="service theme-shadow p-lg-5 p-4">
-                        <div class="iconbox">
-                            <i class="ri-code-box-line"></i>
-                        </div>
-                        <h5 class="mt-4 mb-3">Machine Learning</h5>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet fugiat sunt distinctio?</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-sm-6" data-aos="fade-down" data-aos-delay="650">
-                    <div class="service theme-shadow p-lg-5 p-4">
-                        <div class="iconbox">
-                            <i class="ri-user-2-fill"></i>
-                        </div>
-                        <h5 class="mt-4 mb-3">UX Design</h5>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet fugiat sunt distinctio?</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- COUNTER -->
-    <section id="counter" class="section-padding">
-        <div class="container text-center">
-            <div class="row g-4">
-                <div class="col-lg-3 col-sm-6" data-aos="fade-down" data-aos-delay="150">
-                    <h1 class="text-white display-4">90,00+</h1>
-                    <h6 class="text-uppercase mb-0 text-white mt-3">Total Downloads</h6>
-                </div>
-                <div class="col-lg-3 col-sm-6" data-aos="fade-down" data-aos-delay="250">
-                    <h1 class="text-white display-4">58K+</h1>
-                    <h6 class="text-uppercase mb-0 text-white mt-3">Trusted Clients</h6>
-                </div>
-                <div class="col-lg-3 col-sm-6" data-aos="fade-down" data-aos-delay="350">
-                    <h1 class="text-white display-4">5M+</h1>
-                    <h6 class="text-uppercase mb-0 text-white mt-3">THemes Designed</h6>
-                </div>
-                <div class="col-lg-3 col-sm-6" data-aos="fade-down" data-aos-delay="450">
-                    <h1 class="text-white display-4">100+</h1>
-                    <h6 class="text-uppercase mb-0 text-white mt-3">Team Members</h6>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- PORTFOLIO -->
-    <section id="portfolio" class="section-padding">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center" data-aos="fade-down" data-aos-delay="150">
-                    <div class="section-title">
-                        <h1 class="display-4 fw-semibold">Our Portfolio</h1>
-                        <div class="line"></div>
-                        <p>We love to craft digital experiances for brands rather than crap and more lorem ipsums and do crazy skills</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row g-4">
-                <div class="col-md-4" data-aos="fade-down" data-aos-delay="150">
-                    <div class="portfolio-item image-zoom">
-                        <div class="image-zoom-wrapper">
-                            
-                            <img src="{{ asset('images/project-1.jpg') }}" alt="">
-                        </div>
-                        <a href="{{ asset('images/project-1.jpg') }}" data-fancybox="gallery" class="iconbox"><i class="ri-search-2-line"></i></a>
-                    </div>
-                    <div class="portfolio-item image-zoom mt-4">
-                        <div class="image-zoom-wrapper">
-                            <img src="{{ asset('images/project-2.jpg') }}" alt="">
-                        </div>
-                        <a href="{{ asset('images/project-2.jpg') }}" data-fancybox="gallery" class="iconbox"><i class="ri-search-2-line"></i></a>
-                    </div>
-                </div>
-                <div class="col-md-4" data-aos="fade-down" data-aos-delay="250">
-                    <div class="portfolio-item image-zoom">
-                        <div class="image-zoom-wrapper">
-                            <img src="{{ asset('images/project-3.jpg') }}" alt="">
-                        </div>
-                        <a href="{{ asset('images/project-3.jpg') }}" data-fancybox="gallery" class="iconbox"><i class="ri-search-2-line"></i></a>
-                    </div>
-                    <div class="portfolio-item image-zoom mt-4">
-                        <div class="image-zoom-wrapper">
-                            <img src="{{ asset('images/project-4.jpg') }}" alt="">
-                        </div>
-                        <a href="{{ asset('images/project-4.jpg') }}" data-fancybox="gallery" class="iconbox"><i class="ri-search-2-line"></i></a>
-                    </div>
-                </div>
-                <div class="col-md-4" data-aos="fade-down" data-aos-delay="350">
-                    <div class="portfolio-item image-zoom">
-                        <div class="image-zoom-wrapper">
-                            <img src="{{ asset('images/project-5.jpg') }}" alt="">
-                        </div>
-                        <a href="{{ asset('images/project-5.jpg') }}" data-fancybox="gallery" class="iconbox"><i class="ri-search-2-line"></i></a>
-                    </div>
-                    <div class="portfolio-item image-zoom mt-4">
-                        <div class="image-zoom-wrapper">
-                            <img src="{{ asset('images/project-6.jpg') }}" alt="">
-                        </div>
-                        <a href="{{ asset('images/project-6.jpg') }}" data-fancybox="gallery" class="iconbox"><i class="ri-search-2-line"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- REVIEW -->
-    <section id="reviews" class="section-padding bg-light">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center" data-aos="fade-down" data-aos-delay="150">
-                    <div class="section-title">
-                        <h1 class="display-4 fw-semibold">Testimonials</h1>
-                        <div class="line"></div>
-                        <p>We love to craft digital experiances for brands rather than crap and more lorem ipsums and do crazy skills</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row gy-5 gx-4">
-                <div class="col-lg-4 col-sm-6" data-aos="fade-down" data-aos-delay="150">
-                    <div class="review">
-                        <div class="review-head p-4 bg-white theme-shadow">
-                            <div class="text-warning">
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                            </div>
-                            <p>Amazing theme ipsum dolor sit amet consectetur adipisicing elit. Assumenda eum animi rerum ipsam impedit dicta voluptatem.</p>
-                        </div>
-                        <div class="review-person mt-4 d-flex align-items-center">
-                            <img class="rounded-circle" src="{{ asset('images/avatar-1.jpg') }}" alt="">
-                            <div class="ms-3">
-                                <h5>Dianne Russell</h5>
-                                <small>UX Architect</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-sm-6" data-aos="fade-down" data-aos-delay="250">
-                    <div class="review">
-                        <div class="review-head p-4 bg-white theme-shadow">
-                            <div class="text-warning">
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                            </div>
-                            <p>Amazing theme ipsum dolor sit amet consectetur adipisicing elit. Assumenda eum animi rerum ipsam impedit dicta voluptatem.</p>
-                        </div>
-                        <div class="review-person mt-4 d-flex align-items-center">
-                            <img class="rounded-circle" src="{{ asset('images/avatar-2.jpg') }}" alt="">
-                            <div class="ms-3">
-                                <h5>Dianne Russell</h5>
-                                <small>UX Architect</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-sm-6" data-aos="fade-down" data-aos-delay="350">
-                    <div class="review">
-                        <div class="review-head p-4 bg-white theme-shadow">
-                            <div class="text-warning">
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                            </div>
-                            <p>Amazing theme ipsum dolor sit amet consectetur adipisicing elit. Assumenda eum animi rerum ipsam impedit dicta voluptatem.</p>
-                        </div>
-                        <div class="review-person mt-4 d-flex align-items-center">
-                            <img class="rounded-circle" src="{{ asset('images/avatar-3.jpg') }}" alt="">
-                            <div class="ms-3">
-                                <h5>Dianne Russell</h5>
-                                <small>UX Architect</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-sm-6" data-aos="fade-down" data-aos-delay="450">
-                    <div class="review">
-                        <div class="review-head p-4 bg-white theme-shadow">
-                            <div class="text-warning">
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                            </div>
-                            <p>Amazing theme ipsum dolor sit amet consectetur adipisicing elit. Assumenda eum animi rerum ipsam impedit dicta voluptatem.</p>
-                        </div>
-                        <div class="review-person mt-4 d-flex align-items-center">
-                            <img class="rounded-circle" src="{{ asset('images/avatar-4.jpg') }}" alt="">
-                            <div class="ms-3">
-                                <h5>Dianne Russell</h5>
-                                <small>UX Architect</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-sm-6" data-aos="fade-down" data-aos-delay="550">
-                    <div class="review">
-                        <div class="review-head p-4 bg-white theme-shadow">
-                            <div class="text-warning">
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                            </div>
-                            <p>Amazing theme ipsum dolor sit amet consectetur adipisicing elit. Assumenda eum animi rerum ipsam impedit dicta voluptatem.</p>
-                        </div>
-                        <div class="review-person mt-4 d-flex align-items-center">
-                            <img class="rounded-circle" src="{{ asset('images/avatar-5.jpg') }}" alt="">
-                            <div class="ms-3">
-                                <h5>Dianne Russell</h5>
-                                <small>UX Architect</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-sm-6" data-aos="fade-down" data-aos-delay="650">
-                    <div class="review">
-                        <div class="review-head p-4 bg-white theme-shadow">
-                            <div class="text-warning">
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                            </div>
-                            <p>Amazing theme ipsum dolor sit amet consectetur adipisicing elit. Assumenda eum animi rerum ipsam impedit dicta voluptatem.</p>
-                        </div>
-                        <div class="review-person mt-4 d-flex align-items-center">
-                            <img class="rounded-circle" src="{{ asset('images/avatar-6.jpg') }}" alt="">
-                            <div class="ms-3">
-                                <h5>Dianne Russell</h5>
-                                <small>UX Architect</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- TEAM -->
-    <section id="team" class="section-padding">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center" data-aos="fade-down" data-aos-delay="150">
-                    <div class="section-title">
-                        <h1 class="display-4 fw-semibold">Team Members</h1>
-                        <div class="line"></div>
-                        <p>We love to craft digital experiances for brands rather than crap and more lorem ipsums and do crazy skills</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row g-4 text-center ">
-                <div class="col-md-4" data-aos="fade-down" data-aos-delay="150">
-                    <div class="team-member image-zoom">
-                        <div class="image-zoom-wrapper">
-                            <img src="{{ asset('images/person-1.jpg') }}" alt="">
-                        </div>
-                        <div class="team-member-content">
-                            <h4 class="text-white">Jon Doe</h4>
-                            <p class="mb-0 text-white">Webflow Artist</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4" data-aos="fade-down" data-aos-delay="250">
-                    <div class="team-member image-zoom">
-                        <div class="image-zoom-wrapper">
-                            <img src="{{ asset('images/person-2.jpg') }}" alt="">
-                        </div>
-                        <div class="team-member-content">
-                            <h4 class="text-white">Jon Doe</h4>
-                            <p class="mb-0 text-white">Webflow Artist</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4" data-aos="fade-down" data-aos-delay="350">
-                    <div class="team-member image-zoom">
-                        <div class="image-zoom-wrapper">
-                            <img src="{{ asset('images/person-3.jpg') }}" alt="">
-                        </div>
-                        <div class="team-member-content">
-                            <h4 class="text-white">Jon Doe</h4>
-                            <p class="mb-0 text-white">Webflow Artist</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section class="section-padding bg-light" id="contact">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center" data-aos="fade-down" data-aos-delay="150">
-                    <div class="section-title">
-                        <h1 class="display-4 text-white fw-semibold">Gete in touch</h1>
-                        <div class="line bg-white"></div>
-                        <p class="text-white">We love to craft digital experiances for brands rather than crap and more lorem ipsums and do crazy skills</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row justify-content-center" data-aos="fade-down" data-aos-delay="250">
-                <div class="col-lg-8">
-                    <form action="#" class="row g-3 p-lg-5 p-4 bg-white theme-shadow">
-                        <div class="form-group col-lg-6">
-                            <input type="text" class="form-control" placeholder="Enter first name">
-                        </div>
-                        <div class="form-group col-lg-6">
-                            <input type="text" class="form-control" placeholder="Enter last name">
-                        </div>
-                        <div class="form-group col-lg-12">
-                            <input type="email" class="form-control" placeholder="Enter Email address">
-                        </div>
-                        <div class="form-group col-lg-12">
-                            <input type="text" class="form-control" placeholder="Enter subject">
-                        </div>
-                        <div class="form-group col-lg-12">
-                            <textarea name="message" rows="5" class="form-control" placeholder="Enter Message"></textarea>
-                        </div>
-                        <div class="form-group col-lg-12 d-grid">
-                            <button class="btn btn-brand">Send Message</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- BLOG -->
-    <section id="blog" class="section-padding">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center" data-aos="fade-down" data-aos-delay="150">
-                    <div class="section-title">
-                        <h1 class="display-4 fw-semibold">Recent News & Articles</h1>
-                        <div class="line"></div>
-                        <p>We love to craft digital experiances for brands rather than crap and more lorem ipsums and do crazy skills</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4" data-aos="fade-down" data-aos-delay="150">
-                    <div class="team-member image-zoom">
-                        <div class="image-zoom-wrapper">
-                            <img src="./assets/images/blog-post-1.jpg" alt="">
-                        </div>
-                        <h5 class="mt-4">Web Design 2022</h5>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit sequi quos magni!</p>
-                        <a href="#">Read More</a>
-                    </div>
-                </div>
-                <div class="col-md-4" data-aos="fade-down" data-aos-delay="250">
-                    <div class="team-member image-zoom">
-                        <div class="image-zoom-wrapper">
-                            <img src="./assets/images/blog-post-2.jpg" alt="">
-                        </div>
-                        <h5 class="mt-4">Web Design 2022</h5>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit sequi quos magni!</p>
-                        <a href="#">Read More</a>
-                    </div>
-                </div>
-                <div class="col-md-4" data-aos="fade-down" data-aos-delay="350">
-                    <div class="team-member image-zoom">
-                        <div class="image-zoom-wrapper">
-                            <img src="./assets/images/blog-post-3.jpg" alt="">
-                        </div>
-                        <h5 class="mt-4">Web Design 2022</h5>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit sequi quos magni!</p>
-                        <a href="#">Read More</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="bg-dark">
-        <div class="footer-top">
-            <div class="container">
-                <div class="row gy-5">
-                    <div class="col-lg-3 col-sm-6">
-                        <a href="#"><img src="./assets/images/logo-white.svg" alt=""></a>
-                        <div class="line"></div>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem, hic!</p>
-                        <div class="social-icons">
-                            <a href="#"><i class="ri-twitter-fill"></i></a>
-                            <a href="#"><i class="ri-instagram-fill"></i></a>
-                            <a href="#"><i class="ri-github-fill"></i></a>
-                            <a href="#"><i class="ri-dribbble-fill"></i></a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <h5 class="mb-0 text-white">SERVICES</h5>
-                        <div class="line"></div>
-                        <ul>
-                            <li><a href="#">UI Design</a></li>
-                            <li><a href="#">UX Design</a></li>
-                            <li><a href="#">Branding</a></li>
-                            <li><a href="#">Logo Designing</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <h5 class="mb-0 text-white">ABOUT</h5>
-                        <div class="line"></div>
-                        <ul>
-                            <li><a href="#">Blog</a></li>
-                            <li><a href="#">Services</a></li>
-                            <li><a href="#">Company</a></li>
-                            <li><a href="#">Career</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <h5 class="mb-0 text-white">CONTACT</h5>
-                        <div class="line"></div>
-                        <ul>
-                            <li>New York, NY 3300</li>
-                            <li>(414) 586 - 3017</li>
-                            <li>www.example.com</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="container">
-                <div class="row g-4 justify-content-between">
-                    <div class="col-auto">
-                        <p class="mb-0">© Copyright Elixir. All Rights Reserved</p>
-                    </div>
-                    <div class="col-auto">
-                        <p class="mb-0">Designed with 💜 By <a href="https://www.youtube.com/channel/UCYMEEnLzGGGIpQQ3Nu_sBsQ">SALMAN</a></p>
-                    </div>
-                </div>
-            </div>
+        <div class="bottom">
+            © 2024. Perumdam Antokan<br>
         </div>
     </footer>
+@endsection
 
-
-
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-    <script src="{{ asset('assets/js/main.js') }}"></script>
-</body>
-
-</html>
+@section('js')
+<script>
+    // Tambahkan event listener untuk scroll
+    window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.navbar');
+        if (window.scrollY > 50) { // Ganti 50 dengan nilai sesuai kebutuhan
+            navbar.classList.add('scrolled'); // Menambahkan kelas saat di-scroll
+        } else {
+            navbar.classList.remove('scrolled'); // Menghapus kelas saat kembali ke atas
+        }
+    });
+</script>
+@endsection

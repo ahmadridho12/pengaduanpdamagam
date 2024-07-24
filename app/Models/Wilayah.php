@@ -11,6 +11,7 @@ class Wilayah extends Model
 
     protected $fillable = [
         'nama_wilayah',
+        
         // Add other fields if necessary
     ];
 }
