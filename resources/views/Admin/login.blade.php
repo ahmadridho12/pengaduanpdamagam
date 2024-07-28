@@ -10,7 +10,7 @@
 
     <style>
          body {
-            background: #233e99 url('{{ asset('images/image 8.png') }}') no-repeat center center fixed;
+            background: #233e99 url('{{ asset('images/image8.png') }}') no-repeat center center fixed;
             background-size: cover;
         }
 

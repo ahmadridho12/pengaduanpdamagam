@@ -1,230 +1,17 @@
 @extends('layouts.user')
 
+@section('title', 'Landing Page')
+@section('header', 'PERUMDAM TIRTA ANTOKAN ')
+
 @section('css')
+<link rel="icon" href="{{ asset('images/logoperumda.png') }}" type="image/x-icon">
 <link rel="stylesheet" href="{{ asset('css/new.css') }}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
    
 
-    .btn-white {
-        background: #fff;
-        color: #000;
-        text-transform: uppercase;
-        padding: 0px 25px 0px 25px;
-        font-size: 14px;
-    }
-
-    .btn-facebook {
-        background: #233E99;
-        width: 100%;
-        color: #fff;
-        font-weight: 600;
-    }
-
-    .btn-facebook:hover {
-        background:#233E99;
-        width: 100%;
-        color: #fff;
-        font-weight: 600;
-    }
-
-    .btn-google {
-        background: #cf4332;
-        width: 100%;
-        color: #fff;
-        font-weight: 600;
-    }
-
-    .btn-google:hover {
-        background: #cf4332;
-        width: 100%;
-        color: #fff;
-        font-weight: 600;
-    }
-
-    .btn-copy {
-        background: none;
-        border: none;
-        cursor: pointer;
-    }
-
-    .btn-copy i {
-        color: #007bff;
-        font-size: 1.2em;
-    }
-
-    .btn-copy:hover i {
-        color: #0056b3;
-    }
-    .btn-custom {
-        background-color: #233e99; /* Ganti dengan warna yang diinginkan */
-        color: white;
-    }
-
-    .card-custom {
-        background-color: #f8f9fa; /* Warna latar belakang card */
-        border-color: #233e99; /* Warna border card */
-    }
-    input::placeholder {
-            font-size: small; /* Atur ukuran font untuk placeholder */
-    }
-    select, option {
-            font-size: small; /* Atur ukuran font untuk select dan option */
-    }
-    textarea::placeholder {
-            font-size: small; /* Atur ukuran font untuk placeholder */
-    }
-    .red-asterisk {
-            color: red; /* Atur warna teks menjadi merah */
-    }
     
-    .footer {
-            background-color: #233e99;;
-            color: #ffffff;;
-            margin-top: 40px;
-            padding: 20px;
-        }
-        .footer .container {
-            display: flex;
-            justify-content: space-between;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        .footer .column {
-            flex: 1;
-            margin: 0 10px;
-        }
-        .footer .column h3 {
-            margin-bottom: 10px;
-            font-size: 16px;
-            text-transform: uppercase;
-        }
-        .footer .column a {
-            color: white;
-            text-decoration: none;
-            display: block;
-            margin-bottom: 5px;
-        }
-        .footer .column a:hover {
-            text-decoration: underline;
-        }
-        .footer .contact-info {
-            font-size: 14px;
-        }
-        .footer .social-icons {
-            margin-top: 10px;
-        }
-        .footer .social-icons a {
-            margin-right: 10px;
-            color: white;
-            font-size: 20px;
-            text-decoration: none;
-        }
-        .footer .bottom {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 14px;
-        }
-        .bold-text {
-            font-weight: bold;
-        }
-        .navbar.scrolled {
-            background-color: white !important; /* Warna latar belakang saat di-scroll */
-            transition: background-color 0.3s; /* Transisi halus */
-        }
-        .navbar.scrolled .nav-link {
-            color: black !important; /* Warna font saat di-scroll */
-        }
-        .navbar .nav-link {
-            color: white; /* Warna font default */
-        }
-        .navbar.scrolled .navbar-brand h4,
-        .navbar.scrolled .navbar-brand p {
-        color: black !important; /* Warna teks navbar-brand saat di-scroll */
-    }   
-        /*icon border */
-        .icon-border {
-        display: inline-block;
-        padding: 5px; /* Atur padding sesuai kebutuhan Anda */
-        border: 2px solid #0056b3; /* Warna dan ketebalan border */
-        background-color:#0056b3;
-        color: white;
-        border-radius: 5px; /* Atur radius sesuai kebutuhan Anda */
-    }
-    .slider {
-            display: flex;
-            overflow: hidden;
-            width: 100%;
-            height: 100px; /* Sesuaikan dengan tinggi kontainer slider */
-            align-items: center;
-        }
-        .slider .slide-track {
-            display: flex;
-            animation: scroll 20s linear infinite;
-        }
-        .slider .slide {
-            width: 260px; /* Lebar kontainer setiap slide */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 0 20px;
-        }
-        .slider img {
-            width: 200px; /* Ubah ukuran gambar menjadi 60px */
-            height: auto; /* Menjaga rasio aspek gambar */
-        }
-        @keyframes scroll {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(-100%);
-            }
-
-        }
-        .container2 {
-            width: 100%;
-            overflow: hidden;
-            background-color: #f1f1f1;
-        }
-        .slider1 {
-            display: flex;
-            white-space: nowrap;
-            overflow: hidden;
-            width: 100%;
-        }
-
-        .slide-track1 {
-            display: flex;
-            animation: scroll 20s linear infinite;
-        }
-
-        .slide1 {
-            display: inline-block;
-            padding: 10px 30px;
-            font-size: 14px;
-            background: none;
-            color: rgb(8, 3, 91);
-            margin: 0 10px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-        }
-        .slide1 i {
-            margin-right: 10px; /* Adjust this value for more or less spacing */
-        }
-
-        @keyframes scroll {
-            0% {
-                transform: translateX(100%);
-            }
-            100% {
-                transform: translateX(-100%);
-            }
-        }
-        
 </style>
 @endsection
 
@@ -235,6 +22,9 @@
 <section class="header">
     
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: transparent;"> <!-- Ubah ini -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <a class="navbar-brand" href="#" style="display: flex; align-items: center;">
             <img src="{{ asset('images/logoperumda.png') }}" alt="TIRTA ANTOKAN Logo" class="logo-img" style="width: 60px; margin-right: 10px;">
             <div class="d-flex flex-column" style="margin-top: 20px;">
@@ -246,7 +36,7 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#" style="color: white;">
+                    <a class="nav-link" href="{{ route('user.new') }}" style="color: white;">
                         Beranda
                     </a>
                 </li>
@@ -255,8 +45,8 @@
                         Profil
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#" style="color: grey;"> Sejarah</a>
-                        <a class="dropdown-item" href="#" style="color: grey;">Visi&Misi</a>
+                        <a class="dropdown-item" href="{{ route('user.sejarah') }}" style="color: grey;"> Sejarah</a>
+                        <a class="dropdown-item" href="{{ route('user.visimisi') }}"" style="color: grey;">Visi&Misi</a>
                         <a class="dropdown-item" href="#" style="color: grey;">Direksi</a>
                         <a class="dropdown-item" href="#" style="color: grey;">Struktur Organisasi</a>
                         
@@ -267,8 +57,9 @@
                         Layanan
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ route('user.pemasanganbaru') }}" style="color: grey;">Pemasangan Baru</a>
                         <a class="dropdown-item" href="#" style="color: grey;">Simulasi</a>
-                        <a class="dropdown-item" href="#" style="color: grey;">Pengaduan</a>
+                        <a class="dropdown-item" href="{{ route('pekat.index') }}" style="color: grey;">Pengaduan</a>
                         <a class="dropdown-item" href="#" style="color: grey;">Monitoring Pengaduan</a>
                         <a class="dropdown-item" href="#" style="color: grey;">Loket Pembayaran</a>
                     </div>
@@ -278,18 +69,26 @@
                         Publikasi
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#" style="color: grey;">Berita</a>
+                        <a class="dropdown-item" href="{{ route('user.berita') }}" style="color: grey;">Berita</a>
                         <a class="dropdown-item" href="#" style="color: grey;">Informasi gangguan</a>
                         <a class="dropdown-item" href="#" style="color: grey;">Informasi gangguan</a>
                         <a class="dropdown-item" href="#" style="color: grey;">Tarif Air Minum</a>
                         <a class="dropdown-item" href="#" style="color: grey;">Tahukah Anda</a>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" style="color: white;">
-                        Contact
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">
+                        Hubung Kami
                     </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ route('user.berita') }}" style="color: grey;">Alamat Kantor</a>
+                        <a class="dropdown-item" href="#" style="color: grey;">Media Sosial</a>
+                        <a class="dropdown-item" href="#" style="color: grey;">Whatsapp</a>
+                        <a class="dropdown-item" href="#" style="color: grey;">Tarif Air Minum</a>
+                        <a class="dropdown-item" href="#" style="color: grey;">Tahukah Anda</a>
+                    </div>
                 </li>
+                
             </ul>
         </div>
     </nav>
@@ -345,58 +144,72 @@
         <h3>Pengumuman Tirta Antokan</h3>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        
+        <div class="col-md-6">
             <div class="card1">
                 <h5>
                     <span class="icon-border">
                         <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                     </span>
-                    Info Gangguan
+                    Info Gangguan Dalam Proses
                 </h5><br>
-                <h7>24/07 <span> perbaikan pompa tiku</span></h7>
+
+                @foreach ($gangguanProses as $gangguan)
+                    <div>
+                        <span class="status-icon status-proses"></span>
+                        <h7>{{ \Carbon\Carbon::parse($gangguan->tanggal)->format('d/m') }} 
+                        <span>{{ $gangguan->judul }}</span></h7><br>
+                    </div>
+                @endforeach
+
             </div>
         </div>
-        
-        
+        <div class="col-md-6">
+            <div class="card1">
+                <h5>
+                    <span class="icon-border">
+                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                    </span>
+                    Info Gangguan Yang Telah Selesai
+                </h5><br>
+
+                @foreach ($gangguanSelesai as $gangguan)
+                    <div>
+                        <span class="status-icon status-selesai"></span>
+                        <h7>{{ \Carbon\Carbon::parse($gangguan->tanggal)->format('d/m') }} 
+                        <span>{{ $gangguan->judul }}</span></h7><br>
+                    </div>
+                @endforeach
+
+            </div>
+        </div>
     </div>
 </div>
-<br>
-<br>
-
+<br><br>
 <div class="container mt-4">
     <div class="text-center mb-4">
         <h3>Berita Tirta Antokan</h3>
         <h7>Berita dan informasi seputar Perusahaan Umum Daerah Tirta Antokan</h7>
     </div>
     <div class="row">
-        <div class="col-md-4">
-            <div class="card2">
-                <img src="{{ asset('images/avatar-3.jpg') }}" class="card-img-top" alt="Berita 1"> <!-- Tambahkan gambar -->
-                <div class="card-body">
-                    <h5 class="card-title">Berita 1</h5>
-                    <h6 class="card-text" style="color: #000">Deskripsi singkat berita 1.</h6>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card2">
-                <img src="{{ asset('images/avatar-2.jpg') }}" class="card-img-top" alt="Berita 2"> <!-- Tambahkan gambar -->
-                <div class="card-body">
-                    <h5 class="card-title">Berita 2</h5>
-                    <h6 class="card-text">Deskripsi singkat berita 2.</h6>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card2">
-                <img src="{{ asset('images/avatar-1.jpg') }}" class="card-img-top" alt="Berita 3"> <!-- Tambahkan gambar -->
-                <div class="card-body">
-                    <h5 class="card-title">Berita 3</h5>
-                    <h6 class="card-text">Deskripsi singkat berita 3.</h6>
-                </div>
+    @foreach($berita as $v)
+    <div class="col-md-4">
+        <div class="card2">
+            <a href="{{ route('user.show2', $v->id_berita) }}" style="text-decoration: none; color: inherit;">
+            <img src="{{ Storage::url($v->foto) }}" class="card-img-top custom-img" alt="{{ $v->judul }}">
+            <div class="card-body">
+                <h6 class="card-title" style="font-size: 14px">{{ $v->created_at }}</h6>
+                <h5 class="card-title">{{ $v->judul }}</h5>
+                <h6 class="card-text" style="color: #000">
+                    {{ implode(' ', array_slice(explode(' ', $v->deskripsi), 0, 20)) }}...
+                </h6>
+               
+
             </div>
         </div>
     </div>
+    @endforeach
+</div>
 </div>
 
 <br><br><br>
@@ -474,6 +287,11 @@
         } else {
             navbar.classList.remove('scrolled'); // Menghapus kelas saat kembali ke atas
         }
+    });
+    // Tambahkan event listener untuk toggle hamburger menu
+    document.querySelector('.navbar-toggler').addEventListener('click', function() {
+        const navbarCollapse = document.querySelector('.collapse');
+        navbarCollapse.classList.toggle('show'); // Menampilkan atau menyembunyikan menu
     });
 </script>
 @endsection

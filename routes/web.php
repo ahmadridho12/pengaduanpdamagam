@@ -14,6 +14,10 @@ use App\Http\Controllers\Admin\DirekturController;
 use App\Http\Controllers\User\EmailController;
 use App\Http\Controllers\User\SocialController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Admin\InfogangguanController;
+use App\Http\Controllers\Admin\BeritaController;
+use App\Models\Berita;
+use App\Models\Infogangguan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,9 +30,15 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// Pengaduan
+
+Route::get('/pengaduan/data', [PengaduanController::class, 'getData'])->name('pengaduan.data');
+Route::get('/admin/pengaduan/recent', [PengaduanController::class, 'getRecentPengaduan'])->name('admin.pengaduan.recent');
+
 #pengaduan tambah
 Route::get('admin/pengaduan/tambah', 'PengaduanController@tambah')->name('pengaduan.tambah');
 Route::get('/laporan', 'App\Http\Controllers\User\UserController@show')->name('laporan');
+
 
 Route::get('/', [UserController::class, 'index'])->name('pekat.index');
 
@@ -58,6 +68,48 @@ Route::middleware(['guest'])->group(function () {
     // Media Sosial
     Route::get('auth/{provider}', [SocialController::class, 'redirectToProvider'])->name('pekat.auth');
     Route::get('auth/{provider}/callback', [SocialController::class, 'handleProviderCallback']);
+
+    //pindah kehalaman new//
+    Route::get('/user/new', [UserController::class, 'pindah'])->name('user.new');
+
+    //pindah kehalaman sejarah//
+    Route::get('/user/sejarah', [UserController::class, 'sejarah'])->name('user.sejarah');
+
+    //pindah kehalaman visimisi//
+    Route::get('/user/visimisi', [UserController::class, 'visimisi'])->name('user.visimisi');
+
+    //pindah kehalaman visimisi//
+    Route::get('/user/pemasanganbaru', [UserController::class, 'pemasanganbaru'])->name('user.pemasanganbaru');
+
+     //untuk tracking kode_laporan
+     Route::get('/track-laporan', [UserController::class, 'trackLaporan'])->name('pekat.trackLaporan');
+
+       //menampilkan ke user halaman new
+    // routes/web.php
+    // // route supaya infogangguan nampil dihalaman new
+    // Route::get('/new', [UserController::class, 'showInfogangguan'])->name('user.new');
+    // // route supaya berita nampil dihalaman new
+    // Route::get('/new', [UserController::class, 'showBerita'])->name('user.new');
+
+    Route::get('/new', [UserController::class, 'new'])->name('user.new');
+
+    //mengambil id_berita
+ 
+    Route::get('User/detailberita/{id_berita}', [UserController::class, 'show2'])->name('user.show2');
+
+    // kekhalaman berita
+    // In routes/web.php
+    Route::get('/berita', [UserController::class, 'berita'])->name('user.berita');
+
+    Route::get('user/berita', [UserController::class, 'show3'])->name('user.show3');
+
+    //pindah halaman alamat kantor
+    Route::get('/user/alamatkantor', [UserController::class, 'alamatkantor'])->name('user.alamatkantor');
+    //pindah halaman media sosial
+    Route::get('/user/mediasosial', [UserController::class, 'mediasosial'])->name('user.mediasosial');
+
+
+
 });
 
 Route::prefix('admin')->group(function () {
@@ -69,7 +121,7 @@ Route::prefix('admin')->group(function () {
         //admin
         Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
-
+        
         // Masyarakat
         Route::resource('masyarakat', MasyarakatController::class);
 
@@ -78,6 +130,10 @@ Route::prefix('admin')->group(function () {
         Route::post('getLaporan', [LaporanController::class, 'getLaporan'])->name('laporan.getLaporan');
         Route::get('laporan/cetak/{from}/{to}', [LaporanController::class, 'cetakLaporan'])->name('laporan.cetakLaporan');
         Route::get('laporan/cetakexel/{from}/{to}', [LaporanController::class, 'cetakLaporanExcel'])->name('laporan.cetakLaporanExcel');
+
+        //route ke halaman info gangguan
+        
+        Route::post('/admin/pengaduan', [PengaduanController::class, 'storePengaduan'])->name('admin.pengaduan.store');
     });
 
     
@@ -87,6 +143,7 @@ Route::prefix('admin')->group(function () {
         
         // Pengaduan
         Route::resource('pengaduan', PengaduanController::class);
+        
         Route::post('/pengaduan/store', [PengaduanController::class, 'store'])->name('pengaduan.store');
 
         // Taanggapan
@@ -103,10 +160,9 @@ Route::prefix('admin')->group(function () {
     //untuk cetak spko
     Route::get('/admin/pengaduan/{id_pengaduan}/cetakspko', [PengaduanController::class, 'cetakPDF'])->name('pengaduan.cetakspko');
 
-    //untuk tracking kode_laporan
-    Route::get('/track-laporan', [UserController::class, 'trackLaporan'])->name('pekat.trackLaporan');
+   
     // user ke halaman baru landing
-    Route::get('/user/new', [UserController::class, 'create'])->name('user.new');
+    
 
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -146,8 +202,8 @@ Route::prefix('admin')->group(function () {
     // Tambahkan route untuk download file
     Route::get('download/{file}', [App\Http\Controllers\Admin\MouController::class, 'downloadFile'])->name('download.file');
 
-    //pindah kehalaman new//
-    Route::get('/user/new', [UserController::class, 'pindah'])->name('user.new');
+    
+   
 
      //untuk rayon//
     // Tambahkan route ini
@@ -164,6 +220,44 @@ Route::prefix('admin')->group(function () {
     //mengarahkan storeDirektur//
     Route::post('/direktur/store', [DirekturController::class, 'storeDirektur'])->name('storeDirektur');
 
+    //ini untuk mengarahkan ke halman infogangguan
+    Route::get('admin/Cs/infogangguan', [InfogangguanController::class, 'indexInfogangguan'])->name('indexInfogangguan');
+
+      // Tambahkan route untuk mengarahkan ke halaman createinfogangguan.blade.php
+
+    Route::get('/infogangguan/create', [InfogangguanController::class, 'create'])->name('infogangguan.create');
+      
+
+       //mengarahkan storeinfogangguan//
+    Route::post('/infogangguan/store', [InfogangguanController::class, 'storeInfogangguan'])->name('storeInfogangguan');
+
+    //mengarahkan kehalaman editinfogangguan//
+    Route::get('admin/Cs/editinfogangguan/{id_gangguan}', [InfogangguanController::class, 'edit'])->name('Cs.editinfogangguan');
+    // mengarahkan update infogangguan
+    Route::patch('/infogangguan/update/{id}', [InfogangguanController::class, 'update'])->name('infogangguan.update');
+
+
+    //mou delete
+    Route::delete('/infogangguan/{id}', [InfogangguanController::class, 'destroy'])->name('infogangguan.destroy');
+  
+    //mengarahkan ke halaman berita
+    Route::get('admin/Cs/berita', [BeritaController::class, 'indexBerita'])->name('indexBerita');
+    //mengarahkan kehalaman create berita
+    Route::get('/berita/create', [BeritaController::class, 'create'])->name('berita.create');
+    
+      
+
+       //mengarahkan storeberita//
+    Route::post('/berita/store', [BeritaController::class, 'storeBerita'])->name('storeBerita');
+
+      //mengarahkan kehalaman editberita//
+      Route::get('admin/Cs/editberita/{id_berita}', [BeritaController::class, 'edit'])->name('Cs.editberita');
+
+      // mengarahkan update berita
+    Route::patch('/berita/update/{id}', [BeritaController::class, 'update'])->name('berita.update');
+
+     //berita delete
+     Route::delete('/berita/{id}', [BeritaController::class, 'destroy'])->name('berita.destroy');
 });
 
 // routes/api.php

@@ -13,6 +13,7 @@
     
     <!-- Load your custom CSS file -->
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}"> <!-- Adjust the path accordingly -->
+    <link rel="icon" href="{{ asset('images/logoperumda.png') }}" type="image/x-icon">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-FZpZegd8+aWVll5fCxk8NBvJdGhE9i4TBUC+Vp5zDQ6H4zjpj+NHUC3JxLr+ogB2FW5w9zmAD0L88QeDWkHgPQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -203,6 +204,16 @@ li:hover > .submenu {
                         </ul>
                     </li>
                     
+                </li>
+                <li class="{{ Request::is('admin/Cs/infogangguan') ? 'active' : '' }}">
+                    <a href="{{ route('indexInfogangguan') }}">
+                        <i class="fas fa-file-alt"></i> Info Gangguan
+                    </a>
+                </li>
+                <li class="{{ Request::is('admin/Cs/berita') ? 'active' : '' }}">
+                    <a href="{{ route('indexBerita') }}">
+                        <i class="fas fa-file-alt"></i> Berita
+                    </a>
                 </li>
                 
                 @elseif(Auth::guard('admin')->user()->level == 'petugas')

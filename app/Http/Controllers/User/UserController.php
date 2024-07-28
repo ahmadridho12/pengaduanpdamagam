@@ -8,6 +8,9 @@ use App\Models\Masyarakat;
 use App\Models\Pengaduan;
 use App\Models\Tanggapan;
 use Illuminate\Http\Request;
+use App\Models\Infogangguan;
+use App\Models\Berita;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -274,4 +277,92 @@ class UserController extends Controller
         // Logika untuk metode pindah
         return view('user.new'); // Pastikan Anda memiliki view yang sesuai
     }
+    public function sejarah()
+    {
+        // Logika untuk metode pindah
+        return view('user.sejarah'); // Pastikan Anda memiliki view yang sesuai
+    }
+    public function visimisi()
+    {
+        // Logika untuk metode pindah
+        return view('user.visimisi'); // Pastikan Anda memiliki view yang sesuai
+    }
+    public function pemasanganbaru()
+    {
+        // Logika untuk metode pindah
+        return view('user.pemasanganbaru'); // Pastikan Anda memiliki view yang sesuai
+    }
+
+    //ini untuk menapilkan info gangguan 
+    public function showInfogangguan()
+{
+    // Mengambil data infogangguan dengan status 'proses'
+    $gangguanProses = Infogangguan::where('status', 'proses')->get();
+    
+    // Mengambil data infogangguan dengan status 'selesai' dan tanggal lebih dari 7 hari
+    $today = Carbon::today();
+    $gangguanSelesai = Infogangguan::where('status', 'selesai')
+        ->whereDate('tanggal', '>=', $today->subDays(7))
+        ->get();
+    
+    return view('user.new', compact('gangguanProses', 'gangguanSelesai'));
+}
+    // public function showBerita()
+    //  {
+    //     $berita = Berita::all(); // Fetch all records from the berita table
+    //     return view('user.new', compact('berita')); // Pass the data to the user view
+    // }
+    public function new()
+{
+    // Mengambil data infogangguan dengan status 'proses'
+    $gangguanProses = Infogangguan::where('status', 'proses')->get();
+    
+    // Mengambil data infogangguan dengan status 'selesai' dan tanggal lebih dari 7 hari
+    $today = Carbon::today();
+    $gangguanSelesai = Infogangguan::where('status', 'selesai')
+        ->whereDate('tanggal', '>=', $today->subDays(7))
+        ->get();
+
+    // Fetching data for berita
+    $berita = Berita::latest()->take(3)->get();
+
+    // Pass the data to the view
+    return view('user.new', compact('gangguanProses', 'gangguanSelesai', 'berita'));
+}
+public function show2($id_berita)
+{
+    $berita = Berita::findOrFail($id_berita); // Mengambil berita berdasarkan id
+    $created_at_formatted = $berita->created_at->format('d M Y H:i');
+    return view('user.detailberita', compact('berita'));
+}
+//kehalaman berita
+public function berita()
+{
+    // Fetch the news data, you can use Eloquent ORM or Query Builder here
+    $berita1 = Berita::orderBy('created_at', 'desc')->get();
+// Assuming you have a News model
+
+    // Pass the data to the view
+    return view('user.berita', compact('berita1'));
+}
+public function show3()
+{
+    $berita1 = Berita::all();
+    
+    return view('user.berita', compact('berita1'));
+}
+
+//kehalaman alamatkantor
+public function alamatkantor()
+{
+    // Logika untuk metode pindah
+    return view('user.alamatkantor'); // Pastikan Anda memiliki view yang sesuai
+}
+
+// halaman mediasosial
+public function mediasosial()
+{
+    // Logika untuk metode pindah
+    return view('user.mediasosial'); // Pastikan Anda memiliki view yang sesuai
+}
 }

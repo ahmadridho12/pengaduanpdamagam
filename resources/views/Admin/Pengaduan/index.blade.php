@@ -2,9 +2,6 @@
 
 @section('css')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
-    
-
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.dataTables.min.css">
     <style>
         .table {
@@ -111,7 +108,7 @@
                 </td>
                 <td>
                     <a href="{{ route('pengaduan.show', $v->id_pengaduan) }}" style="text-decoration: underline">
-                        <i class="fas fa-info-circle">Detail</i> 
+                        <i class="fas fa-info-circle"></i> Detail
                     </a>
                 </td>
             </tr>
@@ -123,33 +120,29 @@
 
 @section('js')
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datatables-plugins/1.10.19/sorting/date-eu.js"></script>
-    <script>
-        $(document).ready(function() {
-            // Hancurkan DataTable jika sudah ada
-            if ($.fn.DataTable.isDataTable('#pengaduanTable')) {
-                $('#pengaduanTable').DataTable().clear().destroy();
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.19/sorting/datetime-moment.js"></script>
+<script>
+    $(document).ready(function() {
+        // Tambahkan ini untuk mengurai format tanggal (dd-MMM-yyyy)
+        $.fn.dataTable.moment('D-MMM-YYYY');
+
+        // Inisialisasi DataTable
+        var table = $('#pengaduanTable').DataTable({
+            "order": [[2, "desc"]], // Mengurutkan berdasarkan kolom tanggal (index 2) secara menurun
+            "paging": true,
+            "searching": true,
+            "info": true,
+            
+            "drawCallback": function(settings) {
+                var api = this.api();
+                var start = api.page.info().start;
+                api.column(0, {page: 'current'}).nodes().each(function(cell, i) {
+                    cell.innerHTML = start + i + 1;
+                });
             }
-
-            // Inisialisasi DataTable
-            var table = $('#pengaduanTable').DataTable({
-                "order": [[2, "desc"]], // Mengurutkan berdasarkan kolom tanggal (index 2) secara menurun
-                "columnDefs": [
-                    {
-                        "targets": 2, // Index kolom tanggal
-                        "type": "date-eu" // Menggunakan tipe tanggal Eropa (dd-mm-yyyy)
-                    }
-                ],
-                "drawCallback": function(settings) {
-                    var api = this.api();
-                    var start = api.page.info().start;
-                    api.column(0, {page: 'current'}).nodes().each(function(cell, i) {
-                        cell.innerHTML = start + i + 1;
-                    });
-                }
-            });
         });
-    </script>
-
+    });
+</script>
 @endsection

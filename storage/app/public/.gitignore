@@ -1,6 +1,1 @@
-# Abaikan seluruh folder di storage
-/*
-# Kecualikan folder assets dan isinya
-!assets/
-!assets/pengaduan/
-!assets/pengaduan/*
+/storage/
